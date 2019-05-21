@@ -1,0 +1,15 @@
+serverAddr: 127.0.0.1
+port: 8083
+domain: sunnysoon.com
+trustHostRootCerts: false
+tunels: 
+  - name: protainer
+    subDomain: protainer
+    proto: http
+    host: 192.168.1.101
+    port: 9001
+  - name: wechat
+    subDomain: wechat
+    proto: https
+    host: 127.0.0.1
+    port: 8080
