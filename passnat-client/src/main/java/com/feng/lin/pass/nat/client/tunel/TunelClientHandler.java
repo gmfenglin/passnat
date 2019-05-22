@@ -29,7 +29,6 @@ public class TunelClientHandler extends SimpleChannelInboundHandler<HttpObject> 
 	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
 		System.out.println("client exceptionCaught:" + cause.getLocalizedMessage());
 		ctx.close();
-		TunelClient.reconnect();
 	}
 
 	@Override

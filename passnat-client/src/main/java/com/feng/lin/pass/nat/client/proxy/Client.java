@@ -61,6 +61,8 @@ public class Client {
 						}
 
 						clientRequest.headers().add(request.headers());
+						System.out.println("clientRequest:");
+						System.out.println(clientRequest);
 						future.channel().writeAndFlush(clientRequest);
 					}
 				});

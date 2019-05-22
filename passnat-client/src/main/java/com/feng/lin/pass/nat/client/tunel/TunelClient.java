@@ -87,6 +87,7 @@ public class TunelClient {
 				channel.writeAndFlush(request);
 				Loger.debugLog(logger, () -> "regist channel:" + channel);
 			} else {
+				TimeUnit.SECONDS.sleep(20);
 				future.channel().eventLoop().schedule(() -> {
 					try {
 						connect();
@@ -94,7 +95,6 @@ public class TunelClient {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					Loger.debugLog(logger, () -> "host: " + host + ",port:" + port + ":reconnect 10 seconds.");
 				}, 10, TimeUnit.SECONDS);
 			}
 		});
@@ -103,17 +103,7 @@ public class TunelClient {
 	}
 
 	public static void reconnect() {
-		Runnable runnable = () -> {
-
-			try {
-
-				connect();
-
-			} catch (Exception e) {
-				System.out.println("reconnect:" + e.getMessage());
-			}
-		};
-		new Thread(runnable).start();
+		run(host, port, config);
 	}
 
 	public static void run(String inHost, int inPort, Config inconfig) {
@@ -127,10 +117,15 @@ public class TunelClient {
 				connect().channel().closeFuture().sync();
 
 			} catch (Exception e) {
-				System.out.println("run:" + e.getMessage());
-			} finally {
-				// Shut down the event loop to terminate all threads.
-				group.shutdownGracefully();
+				System.out.println("run:reconnect after 20 seconds.");
+				try {
+					TimeUnit.SECONDS.sleep(20);
+				} catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				run(host, port, config);
+
 			}
 		};
 		new Thread(runnable).start();
