@@ -18,19 +18,21 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.feng.lin.pass.nat.comm.debug.Loger;
-import com.feng.lin.pass.nat.server.tunel.TunelServer;
 
 import io.netty.buffer.Unpooled;
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandler.Sharable;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.DefaultFullHttpResponse;
-import io.netty.handler.codec.http.DefaultHttpRequest;
 import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.FullHttpResponse;
+import io.netty.handler.codec.http.HttpHeaderValues;
 import io.netty.handler.codec.http.HttpObject;
+import io.netty.handler.timeout.IdleState;
+import io.netty.handler.timeout.IdleStateEvent;
 import io.netty.util.AttributeKey;
 
 @Sharable
@@ -51,18 +53,45 @@ public class TunelServerHandler extends SimpleChannelInboundHandler<HttpObject> 
 	}
 
 	@Override
+	public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
+		if (evt instanceof IdleStateEvent) {
+			IdleStateEvent event = (IdleStateEvent) evt;
+			if (event.state() == IdleState.ALL_IDLE) {
+				FullHttpResponse response = new DefaultFullHttpResponse(HTTP_1_1, OK,
+						Unpooled.wrappedBuffer(("time out . ").getBytes()));
+				response.headers().set(CONTENT_TYPE, "text/plain");
+				response.headers().setInt(CONTENT_LENGTH, response.content().readableBytes());
+
+				response.headers().set(CONNECTION, HttpHeaderValues.CLOSE);
+				// 清除超时会话
+				ChannelFuture writeAndFlush = ctx.writeAndFlush(response);
+				writeAndFlush.addListener(new ChannelFutureListener() {
+
+					@Override
+					public void operationComplete(ChannelFuture future) throws Exception {
+						ctx.channel().close();
+					}
+				});
+			}
+		} else {
+			super.userEventTriggered(ctx, evt);
+		}
+	}
+
+	@Override
 	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+		System.out.println("exceptionCaught:" + cause.getMessage());
 		Channel channel = ctx.channel();
 		closeOnFlush(channel);
 	}
 
 	@Override
 	public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+		System.out.println(ctx.channel() + "is inactive");
 	}
 
 	@Override
 	protected void channelRead0(ChannelHandlerContext ctx, HttpObject msg) throws Exception {
-		Loger.debugLog(logger, () -> "TunelServerHandler channelRead0:" + msg);
 		Channel channel = ctx.channel();
 		if (msg instanceof FullHttpRequest) {
 			FullHttpRequest request = (FullHttpRequest) msg;

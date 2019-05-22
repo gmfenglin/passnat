@@ -40,6 +40,9 @@ import io.netty.handler.timeout.IdleStateHandler;
 public class TunelClient {
 	private static final Logger logger = LoggerFactory.getLogger(TunelClient.class);
 	private static final EventLoopGroup group = new NioEventLoopGroup();
+	private static Config config;
+	private static String host;
+	private static int port;
 	private static Bootstrap b = new Bootstrap();
 	static {
 		try {
@@ -52,10 +55,11 @@ public class TunelClient {
 							ChannelPipeline p = ch.pipeline();
 							p.addLast(sslCtx.newHandler(ch.alloc()));
 							p.addLast(new LoggingHandler(LogLevel.INFO));
+							p.addLast(new IdleStateHandler(5, 5, 10));
 							p.addLast("readHandler", new ReadHandler());
-							p.addLast(new HttpObjectAggregator(65536));
+							p.addLast(new HttpObjectAggregator(ReadHandler.MAX_LENGTH));
 							p.addLast("writeHandler", new WriteHandler());
-							p.addLast(new IdleStateHandler(2,2,2, TimeUnit.SECONDS));
+
 							p.addLast(new TunelClientHandler());
 						}
 					});
@@ -65,35 +69,70 @@ public class TunelClient {
 
 	}
 
-	public static void run(String host, int port, Config config) {
-		new Thread(() -> {
+	public static ChannelFuture connect() throws Exception {
+		ChannelFuture f = b.connect(host, port).sync();
+
+		f.addListener((ChannelFuture future) -> {
+			if (future.isSuccess()) {
+
+				Loger.debugLog(logger, () -> "host: " + host + ",port:" + port);
+				Channel channel = future.channel();
+
+				URI url = new URI("/regist");
+				FullHttpRequest request = new DefaultFullHttpRequest(HttpVersion.HTTP_1_0, HttpMethod.GET,
+						url.toASCIIString(), Unpooled.wrappedBuffer(JSON.toJSONString(config).getBytes("UTF-8")));
+				request.headers().set(HttpHeaderNames.HOST, host);
+				request.headers().set(HttpHeaderNames.CONNECTION, HttpHeaderValues.KEEP_ALIVE);
+				request.headers().set(HttpHeaderNames.CONTENT_LENGTH, request.content().readableBytes());
+				channel.writeAndFlush(request);
+				Loger.debugLog(logger, () -> "regist channel:" + channel);
+			} else {
+				future.channel().eventLoop().schedule(() -> {
+					try {
+						connect();
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					Loger.debugLog(logger, () -> "host: " + host + ",port:" + port + ":reconnect 10 seconds.");
+				}, 10, TimeUnit.SECONDS);
+			}
+		});
+		return f;
+
+	}
+
+	public static void reconnect() {
+		Runnable runnable = () -> {
+
 			try {
 
-				ChannelFuture f = b.connect(host, port).sync();
-				Loger.debugLog(logger, () -> "host: " + host + ",port:" + port);
-				f.addListener((ChannelFuture future) -> {
-					if (future.isSuccess()) {
-						Channel channel = future.channel();
+				connect();
 
-						URI url = new URI("/regist");
-						FullHttpRequest request = new DefaultFullHttpRequest(HttpVersion.HTTP_1_0, HttpMethod.GET,
-								url.toASCIIString(),
-								Unpooled.wrappedBuffer(JSON.toJSONString(config).getBytes("UTF-8")));
-						request.headers().set(HttpHeaderNames.HOST, host);
-						request.headers().set(HttpHeaderNames.CONNECTION, HttpHeaderValues.KEEP_ALIVE);
-						request.headers().set(HttpHeaderNames.CONTENT_LENGTH, request.content().readableBytes());
-						channel.writeAndFlush(request);
-						Loger.debugLog(logger, () -> "regist channel:" + channel);
-					}
-				});
-
-				f.channel().closeFuture().sync();
 			} catch (Exception e) {
-				e.printStackTrace();
+				System.out.println("reconnect:" + e.getMessage());
+			}
+		};
+		new Thread(runnable).start();
+	}
+
+	public static void run(String inHost, int inPort, Config inconfig) {
+		config = inconfig;
+		host = inHost;
+		port = inPort;
+		Runnable runnable = () -> {
+
+			try {
+
+				connect().channel().closeFuture().sync();
+
+			} catch (Exception e) {
+				System.out.println("run:" + e.getMessage());
 			} finally {
 				// Shut down the event loop to terminate all threads.
 				group.shutdownGracefully();
 			}
-		}).start();
+		};
+		new Thread(runnable).start();
 	}
 }

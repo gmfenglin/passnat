@@ -51,7 +51,6 @@ public class WriteHandler extends ChannelOutboundHandlerAdapter {
 
 	@Override
 	public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise) throws Exception {
-		System.out.println("write data:");
 		if (msg instanceof FullHttpResponse) {
 			if (ctx.pipeline().get("httpEncoder") != null) {
 				ctx.pipeline().replace(ctx.pipeline().get("httpEncoder"), "httpEncoder", new HttpResponseEncoder());
@@ -75,5 +74,6 @@ public class WriteHandler extends ChannelOutboundHandlerAdapter {
 		// TODO Auto-generated method stub
 		super.flush(ctx);
 	}
+
 
 }

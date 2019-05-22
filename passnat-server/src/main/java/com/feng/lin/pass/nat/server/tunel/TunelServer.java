@@ -17,14 +17,13 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.handler.codec.http.HttpContentCompressor;
-import io.netty.handler.codec.http.HttpContentDecompressor;
 import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 import io.netty.handler.ssl.SslContext;
 import io.netty.handler.ssl.SslContextBuilder;
 import io.netty.handler.ssl.util.SelfSignedCertificate;
+import io.netty.handler.timeout.IdleStateHandler;
 
 public class TunelServer {
 	private static final Logger logger = LoggerFactory.getLogger(TunelServer.class);
@@ -42,8 +41,9 @@ public class TunelServer {
 						public void initChannel(SocketChannel ch) throws Exception {
 							ChannelPipeline p = ch.pipeline();
 							p.addLast(sslCtx.newHandler(ch.alloc()));
+							p.addLast(new IdleStateHandler(10,10, 20));
 							p.addLast("readHandler", new ReadHandler());
-							p.addLast(new HttpObjectAggregator(65536));
+							p.addLast(new HttpObjectAggregator(ReadHandler.MAX_LENGTH));
 							p.addLast("writeHandler", new WriteHandler());
 							p.addLast(new TunelServerHandler(false));
 						}
