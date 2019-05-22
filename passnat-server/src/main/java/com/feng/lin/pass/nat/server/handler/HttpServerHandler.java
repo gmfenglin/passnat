@@ -7,6 +7,7 @@ import static io.netty.handler.codec.http.HttpResponseStatus.OK;
 import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import io.netty.buffer.Unpooled;
 import io.netty.channel.Channel;
@@ -30,6 +31,7 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<HttpObject> {
 
 	@Override
 	public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+		ctx.close();
 	}
 
 	@Override
@@ -82,8 +84,9 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<HttpObject> {
 				ctx.writeAndFlush(response);
 				return;
 			}
-				
-			AttributeKey<Channel> keyHttpChannel = AttributeKey.valueOf("httpChannel");
+			String reqId = UUID.randomUUID().toString();
+			req.headers().set("reqId", reqId);
+			AttributeKey<Channel> keyHttpChannel = AttributeKey.valueOf("httpChannel-" + reqId);
 			channel.attr(keyHttpChannel).set(ctx.channel());
 			((FullHttpRequest) msg).retain();
 			channel.writeAndFlush(((FullHttpRequest) msg).retain());

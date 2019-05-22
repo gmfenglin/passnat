@@ -120,7 +120,9 @@ public class TunelServerHandler extends SimpleChannelInboundHandler<HttpObject> 
 			}
 
 		} else if (msg instanceof FullHttpResponse) {
-			AttributeKey<Channel> keyHttpChannel = AttributeKey.valueOf("httpChannel");
+			FullHttpResponse response = (FullHttpResponse) msg;
+			AttributeKey<Channel> keyHttpChannel = AttributeKey
+					.valueOf("httpChannel-" + response.headers().get("reqId"));
 			Channel httpChannel = ctx.channel().attr(keyHttpChannel).get();
 			if (httpChannel != null && httpChannel.isActive()) {
 				httpChannel.writeAndFlush(msg);

@@ -29,7 +29,7 @@ public class Client {
 				channel.pipeline().addLast(new HttpRequestEncoder());
 
 				// ¾ÛºÏ
-				
+
 				channel.pipeline().addLast(new HttpResponseDecoder());
 				channel.pipeline().addLast(new HttpObjectAggregator(1024 * 10 * 1024));
 				// ½âÑ¹
@@ -51,9 +51,15 @@ public class Client {
 							future.channel().pipeline().remove(ClientHandler.class);
 						}
 
-						future.channel().pipeline().addLast(new ClientHandler(tunelChannel));
+						future.channel().pipeline()
+								.addLast(new ClientHandler(request.headers().get("reqId"), tunelChannel));
 						FullHttpRequest clientRequest = new DefaultFullHttpRequest(HttpVersion.HTTP_1_1,
 								request.method(), request.uri());
+						if (request.content().capacity() > 0) {
+							clientRequest = new DefaultFullHttpRequest(HttpVersion.HTTP_1_1, request.method(),
+									request.uri(), request.content());
+						}
+
 						clientRequest.headers().add(request.headers());
 						future.channel().writeAndFlush(clientRequest);
 					}

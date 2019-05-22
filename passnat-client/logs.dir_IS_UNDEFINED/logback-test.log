@@ -31742,3 +31742,442 @@ Accept-Language: zh-CN,zh;q=0.9
 Cookie: _ga=GA1.2.1364820455.1557648176
 content-length: 0
 2019-05-22 14:49:05.423|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|nioEventLoopGroup-2-1|debugLog|10|call proxy: /ico/favicon-16x16.png
+2019-05-22 14:51:54.778|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|main|debugLog|10|client starting..
+2019-05-22 14:51:54.882|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|main|debugLog|10|config:Config [serverAddr=127.0.0.1, port=8083, domain=sunnysoon.com, trustHostRootCerts=false, tunels=[Tunel [name=protainer, subDomain=protainer, proto=http, host=192.168.1.101], Tunel [name=wechat, subDomain=wechat, proto=https, host=127.0.0.1]]]
+2019-05-22 14:51:56.568|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|nioEventLoopGroup-2-1|debugLog|10|host: 127.0.0.1,port:8083
+2019-05-22 14:51:56.674|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|nioEventLoopGroup-2-1|debugLog|10|regist channel:[id: 0x9f26a31a, L:/127.0.0.1:61883 - R:/127.0.0.1:8083]
+2019-05-22 14:51:56.730|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|nioEventLoopGroup-2-1|debugLog|10|channelRead0 TunelClientHandler: HttpObjectAggregator$AggregatedFullHttpResponse(decodeResult: success, version: HTTP/1.1, content: CompositeByteBuf(ridx: 0, widx: 13, cap: 13, components=1))
+HTTP/1.1 200 OK
+content-type: text/plain
+content-length: 13
+connection: keep-alive
+2019-05-22 14:52:03.139|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|nioEventLoopGroup-2-1|debugLog|10|channelRead0 TunelClientHandler: HttpObjectAggregator$AggregatedFullHttpRequest(decodeResult: success, version: HTTP/1.1, content: CompositeByteBuf(ridx: 0, widx: 0, cap: 0, components=0))
+GET / HTTP/1.1
+Host: protainer.sunnysoon.com
+Connection: keep-alive
+Cache-Control: max-age=0
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8
+Accept-Encoding: gzip, deflate
+Accept-Language: zh-CN,zh;q=0.9
+Cookie: _ga=GA1.2.1364820455.1557648176
+content-length: 0
+2019-05-22 14:52:03.140|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|nioEventLoopGroup-2-1|debugLog|10|call proxy: /
+2019-05-22 14:52:03.508|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|nioEventLoopGroup-2-1|debugLog|10|channelRead0 TunelClientHandler: HttpObjectAggregator$AggregatedFullHttpRequest(decodeResult: success, version: HTTP/1.1, content: CompositeByteBuf(ridx: 0, widx: 0, cap: 0, components=0))
+GET /ico/favicon.ico HTTP/1.1
+Host: protainer.sunnysoon.com
+Connection: keep-alive
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36
+Accept: image/webp,image/apng,image/*,*/*;q=0.8
+Referer: http://protainer.sunnysoon.com/
+Accept-Encoding: gzip, deflate
+Accept-Language: zh-CN,zh;q=0.9
+Cookie: _ga=GA1.2.1364820455.1557648176
+content-length: 0
+2019-05-22 14:52:03.509|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|nioEventLoopGroup-2-1|debugLog|10|call proxy: /ico/favicon.ico
+2019-05-22 14:52:13.809|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|nioEventLoopGroup-2-1|debugLog|10|channelRead0 TunelClientHandler: HttpObjectAggregator$AggregatedFullHttpRequest(decodeResult: success, version: HTTP/1.1, content: CompositeByteBuf(ridx: 0, widx: 0, cap: 0, components=0))
+GET / HTTP/1.1
+Host: protainer.sunnysoon.com
+Connection: keep-alive
+Pragma: no-cache
+Cache-Control: no-cache
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8
+Accept-Encoding: gzip, deflate
+Accept-Language: zh-CN,zh;q=0.9
+Cookie: _ga=GA1.2.1364820455.1557648176
+content-length: 0
+2019-05-22 14:52:13.810|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|nioEventLoopGroup-2-1|debugLog|10|call proxy: /
+2019-05-22 14:52:13.842|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|nioEventLoopGroup-2-1|debugLog|10|channelRead0 TunelClientHandler: HttpObjectAggregator$AggregatedFullHttpRequest(decodeResult: success, version: HTTP/1.1, content: CompositeByteBuf(ridx: 0, widx: 0, cap: 0, components=0))
+GET /css/app.069dd38e.css HTTP/1.1
+Host: protainer.sunnysoon.com
+Connection: keep-alive
+Pragma: no-cache
+Cache-Control: no-cache
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36
+Accept: text/css,*/*;q=0.1
+Referer: http://protainer.sunnysoon.com/
+Accept-Encoding: gzip, deflate
+Accept-Language: zh-CN,zh;q=0.9
+Cookie: _ga=GA1.2.1364820455.1557648176
+content-length: 0
+2019-05-22 14:52:13.843|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|nioEventLoopGroup-2-1|debugLog|10|call proxy: /css/app.069dd38e.css
+2019-05-22 14:52:13.845|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|nioEventLoopGroup-2-1|debugLog|10|channelRead0 TunelClientHandler: HttpObjectAggregator$AggregatedFullHttpRequest(decodeResult: success, version: HTTP/1.1, content: CompositeByteBuf(ridx: 0, widx: 0, cap: 0, components=0))
+GET /js/app.f55ec34c.js HTTP/1.1
+Host: protainer.sunnysoon.com
+Connection: keep-alive
+Pragma: no-cache
+Cache-Control: no-cache
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36
+Accept: */*
+Referer: http://protainer.sunnysoon.com/
+Accept-Encoding: gzip, deflate
+Accept-Language: zh-CN,zh;q=0.9
+Cookie: _ga=GA1.2.1364820455.1557648176
+content-length: 0
+2019-05-22 14:52:13.846|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|nioEventLoopGroup-2-1|debugLog|10|call proxy: /js/app.f55ec34c.js
+2019-05-22 14:52:13.850|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|nioEventLoopGroup-2-1|debugLog|10|channelRead0 TunelClientHandler: HttpObjectAggregator$AggregatedFullHttpRequest(decodeResult: success, version: HTTP/1.1, content: CompositeByteBuf(ridx: 0, widx: 0, cap: 0, components=0))
+GET /images/logo_alt.png HTTP/1.1
+Host: protainer.sunnysoon.com
+Connection: keep-alive
+Pragma: no-cache
+Cache-Control: no-cache
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36
+Accept: image/webp,image/apng,image/*,*/*;q=0.8
+Referer: http://protainer.sunnysoon.com/
+Accept-Encoding: gzip, deflate
+Accept-Language: zh-CN,zh;q=0.9
+Cookie: _ga=GA1.2.1364820455.1557648176
+content-length: 0
+2019-05-22 14:52:13.851|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|nioEventLoopGroup-2-1|debugLog|10|call proxy: /images/logo_alt.png
+2019-05-22 15:14:05.575|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|nioEventLoopGroup-2-1|debugLog|10|channelRead0 TunelClientHandler: HttpObjectAggregator$AggregatedFullHttpRequest(decodeResult: success, version: HTTP/1.1, content: CompositeByteBuf(ridx: 0, widx: 0, cap: 0, components=0))
+GET / HTTP/1.1
+Host: protainer.sunnysoon.com
+Connection: keep-alive
+Cache-Control: max-age=0
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8
+Accept-Encoding: gzip, deflate
+Accept-Language: zh-CN,zh;q=0.9
+Cookie: _ga=GA1.2.1364820455.1557648176
+content-length: 0
+2019-05-22 15:14:05.576|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|nioEventLoopGroup-2-1|debugLog|10|call proxy: /
+2019-05-22 15:14:05.669|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|nioEventLoopGroup-2-1|debugLog|10|channelRead0 TunelClientHandler: HttpObjectAggregator$AggregatedFullHttpRequest(decodeResult: success, version: HTTP/1.1, content: CompositeByteBuf(ridx: 0, widx: 0, cap: 0, components=0))
+GET /css/app.069dd38e.css HTTP/1.1
+Host: protainer.sunnysoon.com
+Connection: keep-alive
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36
+Accept: text/css,*/*;q=0.1
+Referer: http://protainer.sunnysoon.com/
+Accept-Encoding: gzip, deflate
+Accept-Language: zh-CN,zh;q=0.9
+Cookie: _ga=GA1.2.1364820455.1557648176
+content-length: 0
+2019-05-22 15:14:05.670|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|nioEventLoopGroup-2-1|debugLog|10|call proxy: /css/app.069dd38e.css
+2019-05-22 15:14:05.674|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|nioEventLoopGroup-2-1|debugLog|10|channelRead0 TunelClientHandler: HttpObjectAggregator$AggregatedFullHttpRequest(decodeResult: success, version: HTTP/1.1, content: CompositeByteBuf(ridx: 0, widx: 0, cap: 0, components=0))
+GET /js/app.f55ec34c.js HTTP/1.1
+Host: protainer.sunnysoon.com
+Connection: keep-alive
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36
+Accept: */*
+Referer: http://protainer.sunnysoon.com/
+Accept-Encoding: gzip, deflate
+Accept-Language: zh-CN,zh;q=0.9
+Cookie: _ga=GA1.2.1364820455.1557648176
+content-length: 0
+2019-05-22 15:14:05.675|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|nioEventLoopGroup-2-1|debugLog|10|call proxy: /js/app.f55ec34c.js
+2019-05-22 15:15:37.800|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|main|debugLog|10|client starting..
+2019-05-22 15:15:37.906|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|main|debugLog|10|config:Config [serverAddr=127.0.0.1, port=8083, domain=sunnysoon.com, trustHostRootCerts=false, tunels=[Tunel [name=protainer, subDomain=protainer, proto=http, host=192.168.1.101], Tunel [name=wechat, subDomain=wechat, proto=https, host=127.0.0.1]]]
+2019-05-22 15:15:39.620|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|nioEventLoopGroup-2-1|debugLog|10|host: 127.0.0.1,port:8083
+2019-05-22 15:15:39.769|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|nioEventLoopGroup-2-1|debugLog|10|regist channel:[id: 0x33ba5b59, L:/127.0.0.1:63956 - R:/127.0.0.1:8083]
+2019-05-22 15:15:39.945|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|nioEventLoopGroup-2-1|debugLog|10|channelRead0 TunelClientHandler: HttpObjectAggregator$AggregatedFullHttpResponse(decodeResult: success, version: HTTP/1.1, content: CompositeByteBuf(ridx: 0, widx: 13, cap: 13, components=1))
+HTTP/1.1 200 OK
+content-type: text/plain
+content-length: 13
+connection: keep-alive
+2019-05-22 15:15:48.291|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|nioEventLoopGroup-2-1|debugLog|10|channelRead0 TunelClientHandler: HttpObjectAggregator$AggregatedFullHttpRequest(decodeResult: success, version: HTTP/1.1, content: CompositeByteBuf(ridx: 0, widx: 0, cap: 0, components=0))
+GET / HTTP/1.1
+Host: protainer.sunnysoon.com
+Connection: keep-alive
+Cache-Control: max-age=0
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8
+Accept-Encoding: gzip, deflate
+Accept-Language: zh-CN,zh;q=0.9
+Cookie: _ga=GA1.2.1364820455.1557648176
+content-length: 0
+2019-05-22 15:15:48.293|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|nioEventLoopGroup-2-1|debugLog|10|call proxy: /
+2019-05-22 15:15:48.379|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|nioEventLoopGroup-2-1|debugLog|10|channelRead0 TunelClientHandler: HttpObjectAggregator$AggregatedFullHttpRequest(decodeResult: success, version: HTTP/1.1, content: CompositeByteBuf(ridx: 0, widx: 0, cap: 0, components=0))
+GET /css/app.069dd38e.css HTTP/1.1
+Host: protainer.sunnysoon.com
+Connection: keep-alive
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36
+Accept: text/css,*/*;q=0.1
+Referer: http://protainer.sunnysoon.com/
+Accept-Encoding: gzip, deflate
+Accept-Language: zh-CN,zh;q=0.9
+Cookie: _ga=GA1.2.1364820455.1557648176
+content-length: 0
+2019-05-22 15:15:48.380|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|nioEventLoopGroup-2-1|debugLog|10|call proxy: /css/app.069dd38e.css
+2019-05-22 15:15:48.539|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|nioEventLoopGroup-2-1|debugLog|10|channelRead0 TunelClientHandler: HttpObjectAggregator$AggregatedFullHttpRequest(decodeResult: success, version: HTTP/1.1, content: CompositeByteBuf(ridx: 0, widx: 0, cap: 0, components=0))
+GET /fonts/fa-solid-900.woff2 HTTP/1.1
+Host: protainer.sunnysoon.com
+Connection: keep-alive
+Origin: http://protainer.sunnysoon.com
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36
+Accept: */*
+Referer: http://protainer.sunnysoon.com/css/app.069dd38e.css
+Accept-Encoding: gzip, deflate
+Accept-Language: zh-CN,zh;q=0.9
+Cookie: _ga=GA1.2.1364820455.1557648176
+content-length: 0
+2019-05-22 15:15:48.540|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|nioEventLoopGroup-2-1|debugLog|10|call proxy: /fonts/fa-solid-900.woff2
+2019-05-22 15:15:48.654|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|nioEventLoopGroup-2-1|debugLog|10|channelRead0 TunelClientHandler: HttpObjectAggregator$AggregatedFullHttpRequest(decodeResult: success, version: HTTP/1.1, content: CompositeByteBuf(ridx: 0, widx: 0, cap: 0, components=0))
+GET /fonts/montserrat-regular-webfont.woff HTTP/1.1
+Host: protainer.sunnysoon.com
+Connection: keep-alive
+Origin: http://protainer.sunnysoon.com
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36
+Accept: */*
+Referer: http://protainer.sunnysoon.com/css/app.069dd38e.css
+Accept-Encoding: gzip, deflate
+Accept-Language: zh-CN,zh;q=0.9
+Cookie: _ga=GA1.2.1364820455.1557648176
+content-length: 0
+2019-05-22 15:15:48.655|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|nioEventLoopGroup-2-1|debugLog|10|call proxy: /fonts/montserrat-regular-webfont.woff
+2019-05-22 15:15:48.843|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|nioEventLoopGroup-2-1|debugLog|10|channelRead0 TunelClientHandler: HttpObjectAggregator$AggregatedFullHttpRequest(decodeResult: success, version: HTTP/1.1, content: CompositeByteBuf(ridx: 0, widx: 0, cap: 0, components=0))
+GET /ico/favicon-32x32.png HTTP/1.1
+Host: protainer.sunnysoon.com
+Connection: keep-alive
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36
+Accept: image/webp,image/apng,image/*,*/*;q=0.8
+Referer: http://protainer.sunnysoon.com/
+Accept-Encoding: gzip, deflate
+Accept-Language: zh-CN,zh;q=0.9
+Cookie: _ga=GA1.2.1364820455.1557648176
+content-length: 0
+2019-05-22 15:15:48.844|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|nioEventLoopGroup-2-1|debugLog|10|call proxy: /ico/favicon-32x32.png
+2019-05-22 15:15:48.906|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|nioEventLoopGroup-2-1|debugLog|10|channelRead0 TunelClientHandler: HttpObjectAggregator$AggregatedFullHttpRequest(decodeResult: success, version: HTTP/1.1, content: CompositeByteBuf(ridx: 0, widx: 0, cap: 0, components=0))
+GET /ico/favicon-16x16.png HTTP/1.1
+Host: protainer.sunnysoon.com
+Connection: keep-alive
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36
+Accept: image/webp,image/apng,image/*,*/*;q=0.8
+Referer: http://protainer.sunnysoon.com/
+Accept-Encoding: gzip, deflate
+Accept-Language: zh-CN,zh;q=0.9
+Cookie: _ga=GA1.2.1364820455.1557648176
+content-length: 0
+2019-05-22 15:15:48.907|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|nioEventLoopGroup-2-1|debugLog|10|call proxy: /ico/favicon-16x16.png
+2019-05-22 15:19:22.157|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|nioEventLoopGroup-2-1|debugLog|10|channelRead0 TunelClientHandler: HttpObjectAggregator$AggregatedFullHttpRequest(decodeResult: success, version: HTTP/1.1, content: CompositeByteBuf(ridx: 0, widx: 0, cap: 0, components=0))
+GET / HTTP/1.1
+Host: protainer.sunnysoon.com
+Connection: keep-alive
+Cache-Control: max-age=0
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8
+Accept-Encoding: gzip, deflate
+Accept-Language: zh-CN,zh;q=0.9
+Cookie: _ga=GA1.2.1364820455.1557648176
+content-length: 0
+2019-05-22 15:19:22.158|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|nioEventLoopGroup-2-1|debugLog|10|call proxy: /
+2019-05-22 15:35:00.414|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|main|debugLog|10|client starting..
+2019-05-22 15:35:00.517|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|main|debugLog|10|config:Config [serverAddr=127.0.0.1, port=8083, domain=sunnysoon.com, trustHostRootCerts=false, tunels=[Tunel [name=protainer, subDomain=protainer, proto=http, host=192.168.1.101], Tunel [name=wechat, subDomain=wechat, proto=https, host=127.0.0.1]]]
+2019-05-22 15:35:02.231|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|nioEventLoopGroup-2-1|debugLog|10|host: 127.0.0.1,port:8083
+2019-05-22 15:35:02.377|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|nioEventLoopGroup-2-1|debugLog|10|regist channel:[id: 0x843f455f, L:/127.0.0.1:49219 - R:/127.0.0.1:8083]
+2019-05-22 15:35:02.567|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|nioEventLoopGroup-2-1|debugLog|10|channelRead0 TunelClientHandler: HttpObjectAggregator$AggregatedFullHttpResponse(decodeResult: success, version: HTTP/1.1, content: CompositeByteBuf(ridx: 0, widx: 13, cap: 13, components=1))
+HTTP/1.1 200 OK
+content-type: text/plain
+content-length: 13
+connection: keep-alive
+2019-05-22 15:35:17.225|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|nioEventLoopGroup-2-1|debugLog|10|channelRead0 TunelClientHandler: HttpObjectAggregator$AggregatedFullHttpRequest(decodeResult: success, version: HTTP/1.1, content: CompositeByteBuf(ridx: 0, widx: 0, cap: 0, components=0))
+GET / HTTP/1.1
+Host: protainer.sunnysoon.com
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8
+Accept-Encoding: gzip, deflate
+Accept-Language: zh-CN,zh;q=0.9
+Cookie: _ga=GA1.2.1364820455.1557648176
+content-length: 0
+reqId: d915e817-5489-4de1-b324-a4212fd560bc
+2019-05-22 15:35:17.227|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|nioEventLoopGroup-2-1|debugLog|10|call proxy: /
+2019-05-22 15:35:28.655|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|nioEventLoopGroup-2-1|debugLog|10|channelRead0 TunelClientHandler: HttpObjectAggregator$AggregatedFullHttpRequest(decodeResult: success, version: HTTP/1.1, content: CompositeByteBuf(ridx: 0, widx: 0, cap: 0, components=0))
+GET / HTTP/1.1
+Host: protainer.sunnysoon.com
+Connection: keep-alive
+Pragma: no-cache
+Cache-Control: no-cache
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8
+Accept-Encoding: gzip, deflate
+Accept-Language: zh-CN,zh;q=0.9
+Cookie: _ga=GA1.2.1364820455.1557648176
+content-length: 0
+reqId: 660d4bbc-c1e5-4cb5-8520-529eeb5be2a2
+2019-05-22 15:35:28.656|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|nioEventLoopGroup-2-1|debugLog|10|call proxy: /
+2019-05-22 15:35:28.701|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|nioEventLoopGroup-2-1|debugLog|10|channelRead0 TunelClientHandler: HttpObjectAggregator$AggregatedFullHttpRequest(decodeResult: success, version: HTTP/1.1, content: CompositeByteBuf(ridx: 0, widx: 0, cap: 0, components=0))
+GET /css/app.069dd38e.css HTTP/1.1
+Host: protainer.sunnysoon.com
+Connection: keep-alive
+Pragma: no-cache
+Cache-Control: no-cache
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36
+Accept: text/css,*/*;q=0.1
+Referer: http://protainer.sunnysoon.com/
+Accept-Encoding: gzip, deflate
+Accept-Language: zh-CN,zh;q=0.9
+Cookie: _ga=GA1.2.1364820455.1557648176
+content-length: 0
+reqId: 48ff096b-37f1-4c3f-8689-e3c90f26c938
+2019-05-22 15:35:28.702|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|nioEventLoopGroup-2-1|debugLog|10|call proxy: /css/app.069dd38e.css
+2019-05-22 15:35:28.704|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|nioEventLoopGroup-2-1|debugLog|10|channelRead0 TunelClientHandler: HttpObjectAggregator$AggregatedFullHttpRequest(decodeResult: success, version: HTTP/1.1, content: CompositeByteBuf(ridx: 0, widx: 0, cap: 0, components=0))
+GET /js/app.f55ec34c.js HTTP/1.1
+Host: protainer.sunnysoon.com
+Connection: keep-alive
+Pragma: no-cache
+Cache-Control: no-cache
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36
+Accept: */*
+Referer: http://protainer.sunnysoon.com/
+Accept-Encoding: gzip, deflate
+Accept-Language: zh-CN,zh;q=0.9
+Cookie: _ga=GA1.2.1364820455.1557648176
+content-length: 0
+reqId: 70d124bd-bcb7-4cf6-b2fb-87d934aa13ca
+2019-05-22 15:35:28.704|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|nioEventLoopGroup-2-1|debugLog|10|call proxy: /js/app.f55ec34c.js
+2019-05-22 15:35:28.721|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|nioEventLoopGroup-2-1|debugLog|10|channelRead0 TunelClientHandler: HttpObjectAggregator$AggregatedFullHttpRequest(decodeResult: success, version: HTTP/1.1, content: CompositeByteBuf(ridx: 0, widx: 0, cap: 0, components=0))
+GET /images/logo_alt.png HTTP/1.1
+Host: protainer.sunnysoon.com
+Connection: keep-alive
+Pragma: no-cache
+Cache-Control: no-cache
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36
+Accept: image/webp,image/apng,image/*,*/*;q=0.8
+Referer: http://protainer.sunnysoon.com/
+Accept-Encoding: gzip, deflate
+Accept-Language: zh-CN,zh;q=0.9
+Cookie: _ga=GA1.2.1364820455.1557648176
+content-length: 0
+reqId: 1e39aca3-3b19-4fe5-a61c-bfee6caae9d7
+2019-05-22 15:35:28.722|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|nioEventLoopGroup-2-1|debugLog|10|call proxy: /images/logo_alt.png
+2019-05-22 15:35:29.827|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|nioEventLoopGroup-2-1|debugLog|10|channelRead0 TunelClientHandler: HttpObjectAggregator$AggregatedFullHttpRequest(decodeResult: success, version: HTTP/1.1, content: CompositeByteBuf(ridx: 0, widx: 0, cap: 0, components=0))
+GET /api/settings/public HTTP/1.1
+Host: protainer.sunnysoon.com
+Connection: keep-alive
+Pragma: no-cache
+Cache-Control: no-cache
+Accept: application/json, text/plain, */*
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36
+Referer: http://protainer.sunnysoon.com/
+Accept-Encoding: gzip, deflate
+Accept-Language: zh-CN,zh;q=0.9
+Cookie: _ga=GA1.2.1364820455.1557648176
+content-length: 0
+reqId: f43936c4-93ac-4f98-a7d7-ce746aca613c
+2019-05-22 15:35:29.828|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|nioEventLoopGroup-2-1|debugLog|10|call proxy: /api/settings/public
+2019-05-22 15:35:29.829|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|nioEventLoopGroup-2-1|debugLog|10|channelRead0 TunelClientHandler: HttpObjectAggregator$AggregatedFullHttpRequest(decodeResult: success, version: HTTP/1.1, content: CompositeByteBuf(ridx: 0, widx: 0, cap: 0, components=0))
+GET /api/status HTTP/1.1
+Host: protainer.sunnysoon.com
+Connection: keep-alive
+Pragma: no-cache
+Cache-Control: no-cache
+Accept: application/json, text/plain, */*
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36
+Referer: http://protainer.sunnysoon.com/
+Accept-Encoding: gzip, deflate
+Accept-Language: zh-CN,zh;q=0.9
+Cookie: _ga=GA1.2.1364820455.1557648176
+content-length: 0
+reqId: 1bb8ee4f-6999-4bd0-aaf7-685f2a4f4b26
+2019-05-22 15:35:29.830|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|nioEventLoopGroup-2-1|debugLog|10|call proxy: /api/status
+2019-05-22 15:35:29.901|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|nioEventLoopGroup-2-1|debugLog|10|channelRead0 TunelClientHandler: HttpObjectAggregator$AggregatedFullHttpRequest(decodeResult: success, version: HTTP/1.1, content: CompositeByteBuf(ridx: 0, widx: 0, cap: 0, components=0))
+GET /fonts/montserrat-regular-webfont.woff HTTP/1.1
+Host: protainer.sunnysoon.com
+Connection: keep-alive
+Pragma: no-cache
+Cache-Control: no-cache
+Origin: http://protainer.sunnysoon.com
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36
+Accept: */*
+Referer: http://protainer.sunnysoon.com/css/app.069dd38e.css
+Accept-Encoding: gzip, deflate
+Accept-Language: zh-CN,zh;q=0.9
+Cookie: _ga=GA1.2.1364820455.1557648176
+content-length: 0
+reqId: db6bf4a3-4912-4e12-a23c-fb794c44cde3
+2019-05-22 15:35:29.901|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|nioEventLoopGroup-2-1|debugLog|10|call proxy: /fonts/montserrat-regular-webfont.woff
+2019-05-22 15:35:29.903|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|nioEventLoopGroup-2-1|debugLog|10|channelRead0 TunelClientHandler: HttpObjectAggregator$AggregatedFullHttpRequest(decodeResult: success, version: HTTP/1.1, content: CompositeByteBuf(ridx: 0, widx: 0, cap: 0, components=0))
+GET /fonts/fa-solid-900.woff2 HTTP/1.1
+Host: protainer.sunnysoon.com
+Connection: keep-alive
+Pragma: no-cache
+Cache-Control: no-cache
+Origin: http://protainer.sunnysoon.com
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36
+Accept: */*
+Referer: http://protainer.sunnysoon.com/css/app.069dd38e.css
+Accept-Encoding: gzip, deflate
+Accept-Language: zh-CN,zh;q=0.9
+Cookie: _ga=GA1.2.1364820455.1557648176
+content-length: 0
+reqId: cd521e4b-a9b8-40b2-a1cc-feed6601c30c
+2019-05-22 15:35:29.903|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|nioEventLoopGroup-2-1|debugLog|10|call proxy: /fonts/fa-solid-900.woff2
+2019-05-22 15:35:30.037|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|nioEventLoopGroup-2-1|debugLog|10|channelRead0 TunelClientHandler: HttpObjectAggregator$AggregatedFullHttpRequest(decodeResult: success, version: HTTP/1.1, content: CompositeByteBuf(ridx: 0, widx: 0, cap: 0, components=0))
+GET /api/settings/public HTTP/1.1
+Host: protainer.sunnysoon.com
+Connection: keep-alive
+Pragma: no-cache
+Cache-Control: no-cache
+Accept: application/json, text/plain, */*
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36
+Referer: http://protainer.sunnysoon.com/
+Accept-Encoding: gzip, deflate
+Accept-Language: zh-CN,zh;q=0.9
+Cookie: _ga=GA1.2.1364820455.1557648176
+content-length: 0
+reqId: 9550859b-4000-4bb5-90cd-1e600e2f26dc
+2019-05-22 15:35:30.038|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|nioEventLoopGroup-2-1|debugLog|10|call proxy: /api/settings/public
+2019-05-22 15:35:30.052|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|nioEventLoopGroup-2-1|debugLog|10|channelRead0 TunelClientHandler: HttpObjectAggregator$AggregatedFullHttpRequest(decodeResult: success, version: HTTP/1.1, content: CompositeByteBuf(ridx: 0, widx: 0, cap: 0, components=0))
+GET /api/users/admin/check HTTP/1.1
+Host: protainer.sunnysoon.com
+Connection: keep-alive
+Pragma: no-cache
+Cache-Control: no-cache
+Accept: application/json, text/plain, */*
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36
+Referer: http://protainer.sunnysoon.com/
+Accept-Encoding: gzip, deflate
+Accept-Language: zh-CN,zh;q=0.9
+Cookie: _ga=GA1.2.1364820455.1557648176
+content-length: 0
+reqId: efef8779-7e96-4782-8a64-9fb2a69b0c8c
+2019-05-22 15:35:30.053|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|nioEventLoopGroup-2-1|debugLog|10|call proxy: /api/users/admin/check
+2019-05-22 15:35:30.318|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|nioEventLoopGroup-2-1|debugLog|10|channelRead0 TunelClientHandler: HttpObjectAggregator$AggregatedFullHttpRequest(decodeResult: success, version: HTTP/1.1, content: CompositeByteBuf(ridx: 0, widx: 0, cap: 0, components=0))
+GET /ico/favicon-32x32.png HTTP/1.1
+Host: protainer.sunnysoon.com
+Connection: keep-alive
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36
+Accept: image/webp,image/apng,image/*,*/*;q=0.8
+Referer: http://protainer.sunnysoon.com/
+Accept-Encoding: gzip, deflate
+Accept-Language: zh-CN,zh;q=0.9
+Cookie: _ga=GA1.2.1364820455.1557648176; _gid=GA1.2.172536840.1558510530; _gat=1
+content-length: 0
+reqId: 713240e5-e276-4d73-9dc6-375e3c67a19e
+2019-05-22 15:35:30.319|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|nioEventLoopGroup-2-1|debugLog|10|call proxy: /ico/favicon-32x32.png
+2019-05-22 15:35:30.348|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|nioEventLoopGroup-2-1|debugLog|10|channelRead0 TunelClientHandler: HttpObjectAggregator$AggregatedFullHttpRequest(decodeResult: success, version: HTTP/1.1, content: CompositeByteBuf(ridx: 0, widx: 0, cap: 0, components=0))
+GET /ico/favicon-16x16.png HTTP/1.1
+Host: protainer.sunnysoon.com
+Connection: keep-alive
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36
+Accept: image/webp,image/apng,image/*,*/*;q=0.8
+Referer: http://protainer.sunnysoon.com/
+Accept-Encoding: gzip, deflate
+Accept-Language: zh-CN,zh;q=0.9
+Cookie: _ga=GA1.2.1364820455.1557648176; _gid=GA1.2.172536840.1558510530; _gat=1
+content-length: 0
+reqId: 674c6833-5f41-486f-9937-1a5ca0b83a91
+2019-05-22 15:35:30.349|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|nioEventLoopGroup-2-1|debugLog|10|call proxy: /ico/favicon-16x16.png
+2019-05-22 15:36:12.677|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|nioEventLoopGroup-2-1|debugLog|10|channelRead0 TunelClientHandler: HttpObjectAggregator$AggregatedFullHttpRequest(decodeResult: success, version: HTTP/1.1, content: CompositeByteBuf(ridx: 0, widx: 46, cap: 46, components=1))
+POST /api/auth HTTP/1.1
+Host: protainer.sunnysoon.com
+Connection: keep-alive
+Content-Length: 46
+Accept: application/json, text/plain, */*
+Origin: http://protainer.sunnysoon.com
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36
+Content-Type: application/json
+Referer: http://protainer.sunnysoon.com/
+Accept-Encoding: gzip, deflate
+Accept-Language: zh-CN,zh;q=0.9
+Cookie: _ga=GA1.2.1364820455.1557648176; _gid=GA1.2.172536840.1558510530; _gat=1
+reqId: 29f1ec35-08e3-4c85-93b7-977efdc00a84
+2019-05-22 15:36:12.678|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|nioEventLoopGroup-2-1|debugLog|10|call proxy: /api/auth

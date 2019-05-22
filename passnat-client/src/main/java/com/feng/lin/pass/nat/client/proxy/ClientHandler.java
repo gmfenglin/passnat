@@ -9,10 +9,12 @@ import io.netty.handler.codec.http.FullHttpResponse;
 
 public class ClientHandler extends ChannelInboundHandlerAdapter {
 	private Channel channel;
+	private String reqId;
 
-	public ClientHandler(Channel channel) {
+	public ClientHandler(String reqId, Channel channel) {
 		super();
 		this.channel = channel;
+		this.reqId = reqId;
 	}
 
 	@Override
@@ -29,6 +31,7 @@ public class ClientHandler extends ChannelInboundHandlerAdapter {
 	@Override
 	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
 		FullHttpResponse response = (FullHttpResponse) msg;
+		response.headers().add("reqId", reqId);
 		System.out.println("channelRead content:" + response.content().toString(Charset.defaultCharset()).length());
 		channel.writeAndFlush(response);
 	}
