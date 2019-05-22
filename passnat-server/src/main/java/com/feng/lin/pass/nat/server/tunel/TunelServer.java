@@ -43,7 +43,6 @@ public class TunelServer {
 							p.addLast(sslCtx.newHandler(ch.alloc()));
 							p.addLast(new IdleStateHandler(10,10, 20));
 							p.addLast("readHandler", new ReadHandler());
-							p.addLast(new HttpObjectAggregator(ReadHandler.MAX_LENGTH));
 							p.addLast("writeHandler", new WriteHandler());
 							p.addLast(new TunelServerHandler(false));
 						}

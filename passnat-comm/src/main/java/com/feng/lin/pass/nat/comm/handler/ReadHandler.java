@@ -1,10 +1,12 @@
 package com.feng.lin.pass.nat.comm.handler;
 
+import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.DefaultFullHttpRequest;
 import io.netty.handler.codec.http.DefaultHttpRequest;
 import io.netty.handler.codec.http.DefaultHttpResponse;
 import io.netty.handler.codec.http.HttpMessage;
 import io.netty.handler.codec.http.HttpMethod;
+import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.HttpObjectDecoder;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.netty.handler.codec.http.HttpVersion;
@@ -14,6 +16,15 @@ public class ReadHandler extends HttpObjectDecoder {
 
 	public ReadHandler() {
 		this(MAX_LENGTH, 8192, 8192);
+	}
+
+	@Override
+	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+		if (ctx.pipeline().get("HttpObjectAggregator") == null) {
+			ctx.pipeline().addAfter("readHandler", "HttpObjectAggregator",
+					new HttpObjectAggregator(ReadHandler.MAX_LENGTH));
+		}
+		super.channelRead(ctx, msg);
 	}
 
 	/**

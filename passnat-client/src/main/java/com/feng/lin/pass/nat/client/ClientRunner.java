@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.feng.lin.pass.nat.client.bean.Config;
+import com.feng.lin.pass.nat.client.proxy.route.Router;
 import com.feng.lin.pass.nat.client.tunel.TunelClient;
 import com.feng.lin.pass.nat.comm.YamReader;
 import com.feng.lin.pass.nat.comm.debug.Loger;
@@ -19,6 +20,7 @@ public class ClientRunner {
 		Optional<Config> configOptional = Optional.ofNullable(
 				YamReader.reader(Config.class, ClientRunner.class.getClassLoader().getResourceAsStream(CONFIG)));
 		Config config = configOptional.orElseGet(() -> new Config());
+		Router.getInstance().parseConfig(config);
 		Loger.debugLog(logger, () -> "config:" + config);
 		try {
 			TunelClient.run(config.getServerAddr(), config.getPort(), config);

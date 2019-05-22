@@ -57,7 +57,6 @@ public class TunelClient {
 							p.addLast(new LoggingHandler(LogLevel.INFO));
 							p.addLast(new IdleStateHandler(5, 5, 10));
 							p.addLast("readHandler", new ReadHandler());
-							p.addLast(new HttpObjectAggregator(ReadHandler.MAX_LENGTH));
 							p.addLast("writeHandler", new WriteHandler());
 
 							p.addLast(new TunelClientHandler());

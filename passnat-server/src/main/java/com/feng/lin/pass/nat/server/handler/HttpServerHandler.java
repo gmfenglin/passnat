@@ -6,6 +6,7 @@ import static io.netty.handler.codec.http.HttpHeaderNames.CONTENT_TYPE;
 import static io.netty.handler.codec.http.HttpResponseStatus.OK;
 import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
 
+import java.nio.charset.Charset;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -48,6 +49,7 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<HttpObject> {
 		System.out.println(msg);
 		if (msg instanceof FullHttpRequest) {
 			FullHttpRequest req = (FullHttpRequest) msg;
+			System.out.println("content:"+req.content().toString(Charset.defaultCharset()));
 			String host = req.headers().get("host");
 			Optional<String> channelKey = Optional.ofNullable(TunelServerHandler.domainMap.get(host));
 			if (!channelKey.isPresent()) {

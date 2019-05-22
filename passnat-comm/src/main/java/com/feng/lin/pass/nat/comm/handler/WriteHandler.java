@@ -7,6 +7,7 @@ import io.netty.channel.ChannelOutboundHandlerAdapter;
 import io.netty.channel.ChannelPromise;
 import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.FullHttpResponse;
+import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.HttpRequestEncoder;
 import io.netty.handler.codec.http.HttpResponseEncoder;
 
@@ -52,19 +53,30 @@ public class WriteHandler extends ChannelOutboundHandlerAdapter {
 	@Override
 	public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise) throws Exception {
 		if (msg instanceof FullHttpResponse) {
-			if (ctx.pipeline().get("httpEncoder") != null) {
-				ctx.pipeline().replace(ctx.pipeline().get("httpEncoder"), "httpEncoder", new HttpResponseEncoder());
+			if (ctx.pipeline().get("Encoder") != null) {
+				ctx.pipeline().replace(ctx.pipeline().get("Encoder"), "Encoder", new HttpResponseEncoder());
 			} else {
-				ctx.pipeline().addBefore("writeHandler", "httpEncoder", new HttpResponseEncoder());
+				ctx.pipeline().addBefore("writeHandler", "Encoder", new HttpResponseEncoder());
+			}
+			if (ctx.pipeline().get("HttpObjectAggregator") == null) {
+				ctx.pipeline().addAfter("Encoder", "HttpObjectAggregator",
+						new HttpObjectAggregator(ReadHandler.MAX_LENGTH));
 			}
 
 		} else if (msg instanceof FullHttpRequest) {
-			if (ctx.pipeline().get("httpEncoder") != null) {
-				ctx.pipeline().replace(ctx.pipeline().get("httpEncoder"), "httpEncoder", new HttpRequestEncoder());
+			if (ctx.pipeline().get("Encoder") != null) {
+				ctx.pipeline().replace(ctx.pipeline().get("Encoder"), "Encoder", new HttpRequestEncoder());
 			} else {
-				ctx.pipeline().addBefore("writeHandler", "httpEncoder", new HttpRequestEncoder());
+				ctx.pipeline().addBefore("writeHandler", "Encoder", new HttpRequestEncoder());
 			}
-
+			if (ctx.pipeline().get("HttpObjectAggregator") == null) {
+				ctx.pipeline().addAfter("Encoder", "HttpObjectAggregator",
+						new HttpObjectAggregator(ReadHandler.MAX_LENGTH));
+			}
+		} else {
+			if (ctx.pipeline().get("HttpObjectAggregator") != null) {
+				ctx.pipeline().remove("HttpObjectAggregator");
+			}
 		}
 		super.write(ctx, msg, promise);
 	}
@@ -74,6 +86,5 @@ public class WriteHandler extends ChannelOutboundHandlerAdapter {
 		// TODO Auto-generated method stub
 		super.flush(ctx);
 	}
-
 
 }

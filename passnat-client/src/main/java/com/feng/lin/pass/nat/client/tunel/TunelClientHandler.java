@@ -1,11 +1,15 @@
 package com.feng.lin.pass.nat.client.tunel;
 
 import java.net.URI;
+import java.nio.charset.Charset;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.feng.lin.pass.nat.client.proxy.Client;
+import com.feng.lin.pass.nat.client.bean.Tunel;
+import com.feng.lin.pass.nat.client.proxy.http.Client;
+import com.feng.lin.pass.nat.client.proxy.route.Router;
 import com.feng.lin.pass.nat.comm.debug.Loger;
 
 import io.netty.channel.Channel;
@@ -24,6 +28,10 @@ import io.netty.handler.timeout.IdleStateEvent;
 
 public class TunelClientHandler extends SimpleChannelInboundHandler<HttpObject> {
 	private static final Logger logger = LoggerFactory.getLogger(TunelClientHandler.class);
+
+	public TunelClientHandler() {
+		super(false);
+	}
 
 	@Override
 	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
@@ -59,8 +67,15 @@ public class TunelClientHandler extends SimpleChannelInboundHandler<HttpObject> 
 		Channel channel = ctx.channel();
 		if (msg instanceof FullHttpRequest) {
 			FullHttpRequest request = (FullHttpRequest) msg;
-			Loger.debugLog(logger, () -> "call proxy: " + request.uri());
-			Client.start("192.168.1.101", 9001, (FullHttpRequest) msg, ctx.channel());
+			System.out.println("content:" + request.content().toString(Charset.defaultCharset()));
+			Optional<Tunel> tunelOptional = Optional
+					.ofNullable(Router.getInstance().get("http", request.headers().get("host")));
+			if (tunelOptional.isPresent()) {
+				Tunel tunel = tunelOptional.get();
+				Loger.debugLog(logger, () -> "call proxy: " + request.uri());
+				Client.start(tunel.getHost(), tunel.getPort(), (FullHttpRequest) msg, ctx.channel());
+			}
+
 		} else if (msg instanceof FullHttpResponse) {
 
 		}

@@ -9,6 +9,7 @@ import com.feng.lin.pass.nat.comm.YamReader;
 import com.feng.lin.pass.nat.comm.debug.Loger;
 import com.feng.lin.pass.nat.server.bean.Config;
 import com.feng.lin.pass.nat.server.http.HttpServer;
+import com.feng.lin.pass.nat.server.https.HttpsServer;
 import com.feng.lin.pass.nat.server.tunel.TunelServer;
 
 public class ServerRunner {
@@ -24,6 +25,7 @@ public class ServerRunner {
 		try {
 			TunelServer.run(config.getTunelAddr());
 			HttpServer.run(config.getHttpAddr());
+			HttpsServer.run(config.getHttpsAddr());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 
