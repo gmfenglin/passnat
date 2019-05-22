@@ -69,7 +69,7 @@ public class TunelClientHandler extends SimpleChannelInboundHandler<HttpObject> 
 			FullHttpRequest request = (FullHttpRequest) msg;
 			System.out.println("content:" + request.content().toString(Charset.defaultCharset()));
 			Optional<Tunel> tunelOptional = Optional
-					.ofNullable(Router.getInstance().get("http", request.headers().get("host")));
+					.ofNullable(Router.getInstance().get(request.headers().get("protocol"), request.headers().get("host")));
 			if (tunelOptional.isPresent()) {
 				Tunel tunel = tunelOptional.get();
 				Loger.debugLog(logger, () -> "call proxy: " + request.uri());

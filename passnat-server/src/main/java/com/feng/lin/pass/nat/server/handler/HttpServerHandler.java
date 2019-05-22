@@ -23,6 +23,12 @@ import io.netty.handler.codec.http.HttpObject;
 import io.netty.util.AttributeKey;
 
 public class HttpServerHandler extends SimpleChannelInboundHandler<HttpObject> {
+	private boolean supportSsl;
+
+	public HttpServerHandler(boolean supportSsl) {
+		super();
+		this.supportSsl = supportSsl;
+	}
 
 	static void closeOnFlush(Channel ch) {
 		if (ch.isActive()) {
@@ -46,10 +52,9 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<HttpObject> {
 
 	@Override
 	protected void channelRead0(ChannelHandlerContext ctx, HttpObject msg) throws Exception {
-		System.out.println(msg);
 		if (msg instanceof FullHttpRequest) {
 			FullHttpRequest req = (FullHttpRequest) msg;
-			System.out.println("content:"+req.content().toString(Charset.defaultCharset()));
+			req.headers().set("protocol", supportSsl ? "https" : "http");
 			String host = req.headers().get("host");
 			Optional<String> channelKey = Optional.ofNullable(TunelServerHandler.domainMap.get(host));
 			if (!channelKey.isPresent()) {

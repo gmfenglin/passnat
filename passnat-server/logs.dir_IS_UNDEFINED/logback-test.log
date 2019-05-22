@@ -4312,3 +4312,11 @@ Created at:
 2019-05-22 20:31:38.672|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|main|debugLog|10|config:Config [domain=localhost, httpAddr=80, httpsAddr=443, tunelAddr=8083]
 2019-05-22 20:31:40.481|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|Thread-2|debugLog|10|Open your web browser and navigate to http://127.0.0.1:80/
 2019-05-22 20:31:40.495|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|Thread-1|debugLog|10|listening port:8083
+2019-05-23 00:09:24.480|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|main|debugLog|10|client starting..
+2019-05-23 00:09:24.574|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|main|debugLog|10|config:Config [domain=localhost, httpAddr=80, httpsAddr=443, tunelAddr=8083]
+2019-05-23 00:09:26.843|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|Thread-1|debugLog|10|listening port:8083
+2019-05-23 00:09:26.843|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|Thread-2|debugLog|10|Open your web browser and navigate to http://127.0.0.1:80/
+2019-05-23 00:26:04.073|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|main|debugLog|10|client starting..
+2019-05-23 00:26:04.164|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|main|debugLog|10|config:Config [domain=localhost, httpAddr=80, httpsAddr=443, tunelAddr=8083]
+2019-05-23 00:26:06.029|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|Thread-2|debugLog|10|Open your web browser and navigate to http://127.0.0.1:80/
+2019-05-23 00:26:06.038|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|Thread-1|debugLog|10|listening port:8083

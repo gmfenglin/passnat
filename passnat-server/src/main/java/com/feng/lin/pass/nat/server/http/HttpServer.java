@@ -37,7 +37,7 @@ public class HttpServer {
 						p.addLast(new HttpRequestDecoder());
 						p.addLast(new HttpObjectAggregator(65536));
 						p.addLast(new HttpResponseEncoder());
-						p.addLast(new HttpServerHandler());
+						p.addLast(new HttpServerHandler(false));
 					}
 				});
 	}
