@@ -26,16 +26,16 @@ import io.netty.handler.ssl.SslHandler;
 public class Clients {
 	private static final EventLoopGroup group = new NioEventLoopGroup();
 	private static Bootstrap bootstrap = new Bootstrap();
+	private static SSLContext clientContext;
 	static {
 		try {
-			SSLContext clientContext = SSLContext.getInstance("TLSv1");
+			clientContext = SSLContext.getInstance("TLSv1");
 			clientContext.init(null, SecureChatTrustManagerFactory.getTrustManagers(), null);
-			SSLEngine engine = clientContext.createSSLEngine();
-			engine.setUseClientMode(true);
+
 			bootstrap.group(group).option(ChannelOption.SO_KEEPALIVE, false).channel(NioSocketChannel.class);
 			bootstrap.handler(new ChannelInitializer<Channel>() {
 				protected void initChannel(Channel channel) throws Exception {
-					channel.pipeline().addLast("ssl", new SslHandler(engine));
+
 					channel.pipeline().addLast(new HttpContentDecompressor());
 					channel.pipeline().addLast(new HttpResponseDecoder());
 					channel.pipeline().addLast(new HttpObjectAggregator(1024 * 10 * 1024));
@@ -59,6 +59,12 @@ public class Clients {
 						if (future.channel().pipeline().context(ClientHandler.class) != null) {
 							future.channel().pipeline().remove(ClientHandler.class);
 						}
+						if(future.channel().pipeline().context("ssl")!=null) {
+							future.channel().pipeline().remove("ssl");
+						}
+						SSLEngine engine = clientContext.createSSLEngine(host, port);
+						engine.setUseClientMode(true);
+						future.channel().pipeline().addFirst("ssl",new SslHandler(engine));
 						future.channel().pipeline()
 								.addLast(new ClientHandler(request.headers().get("reqId"), tunelChannel));
 
