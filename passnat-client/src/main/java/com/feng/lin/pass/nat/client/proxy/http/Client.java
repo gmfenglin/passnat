@@ -22,20 +22,15 @@ public class Client {
 			bootstrap.group(group).option(ChannelOption.SO_KEEPALIVE, false).channel(NioSocketChannel.class);
 			bootstrap.handler(new ChannelInitializer<Channel>() {
 				protected void initChannel(Channel channel) throws Exception {
-					// channel.pipeline().addLast(sslCtx.newHandler(channel.alloc()));
-					// 包含编码器和解码器
-					channel.pipeline().addLast(new HttpRequestEncoder());
-
-					// 聚合
-
+					channel.pipeline().addLast(new HttpContentDecompressor());
 					channel.pipeline().addLast(new HttpResponseDecoder());
 					channel.pipeline().addLast(new HttpObjectAggregator(1024 * 10 * 1024));
-					// 解压
-					channel.pipeline().addLast(new HttpContentDecompressor());
+					channel.pipeline().addLast(new HttpRequestEncoder());
 
 				}
 			});
 		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 

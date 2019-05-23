@@ -4,22 +4,23 @@ import java.nio.charset.Charset;
 
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.ChannelInboundHandlerAdapter;
+import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.FullHttpResponse;
+import io.netty.handler.codec.http.HttpObject;
 
-public class ClientHandler extends ChannelInboundHandlerAdapter {
+public class ClientHandler extends SimpleChannelInboundHandler<HttpObject> {
 	private Channel channel;
 	private String reqId;
 
 	public ClientHandler(String reqId, Channel channel) {
-		super();
+		super(false);
 		this.channel = channel;
 		this.reqId = reqId;
 	}
 
 	@Override
 	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-		System.out.println("exceptionCaught:"+cause.getMessage());
+		cause.printStackTrace();
 		ctx.close();
 	}
 
@@ -29,11 +30,15 @@ public class ClientHandler extends ChannelInboundHandlerAdapter {
 	}
 
 	@Override
-	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-		FullHttpResponse response = (FullHttpResponse) msg;
-		response.headers().add("reqId", reqId);
-		System.out.println("channelRead content:" + response.content().toString(Charset.defaultCharset()).length());
-		channel.writeAndFlush(response);
+	protected void channelRead0(ChannelHandlerContext ctx, HttpObject msg) throws Exception {
+		System.out.println(msg);
+		if (msg instanceof FullHttpResponse) {
+			FullHttpResponse response = (FullHttpResponse) msg;
+			response.headers().add("reqId", reqId);
+			System.out.println("channelRead content:" + response.content().toString(Charset.defaultCharset()).length());
+			channel.writeAndFlush(response);
+		}
+
 	}
 
 }

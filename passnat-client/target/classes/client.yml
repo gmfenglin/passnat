@@ -6,7 +6,7 @@ tunels:
   - name: protainer
     subDomain: protainer
     proto: https
-    host: www.sunnysoon.com
+    host: www.baidu.com
     port: 443
     schema: https
   - name: wechat
