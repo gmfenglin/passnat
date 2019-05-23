@@ -7,6 +7,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.FullHttpResponse;
 import io.netty.handler.codec.http.HttpObject;
+import io.netty.util.AttributeKey;
 
 public class ClientHandler extends SimpleChannelInboundHandler<HttpObject> {
 	private Channel channel;
@@ -35,6 +36,16 @@ public class ClientHandler extends SimpleChannelInboundHandler<HttpObject> {
 		if (msg instanceof FullHttpResponse) {
 			FullHttpResponse response = (FullHttpResponse) msg;
 			response.headers().add("reqId", reqId);
+			if (response.headers().contains("Location")) {
+				AttributeKey<String> keyHost = AttributeKey.valueOf("host");
+				AttributeKey<String> KeyconnectHost = AttributeKey.valueOf("connectHost");
+				String host = channel.attr(keyHost).get();
+				String connectHost = channel.attr(KeyconnectHost).get();
+				String location = response.headers().get("Location").replace(connectHost, host);
+				response.headers().remove("Location");
+				response.headers().add("Location", location);
+			}
+
 			System.out.println("channelRead content:" + response.content().toString(Charset.defaultCharset()).length());
 			channel.writeAndFlush(response);
 		}

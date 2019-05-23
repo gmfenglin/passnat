@@ -3,10 +3,10 @@ port: 8083
 domain: sunnysoon.com
 trustHostRootCerts: false
 tunels: 
-  - name: protainer
-    subDomain: protainer
+  - name: fengoffice
+    subDomain: fengoffice
     proto: https
-    host: www.baidu.com
+    host: jkis.jkconsulting.cn
     port: 443
     schema: https
   - name: wechat

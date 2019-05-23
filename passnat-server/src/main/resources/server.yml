@@ -1,4 +1,4 @@
 domain: localhost
 httpAddr: 80
-#httpsAddr: 443
+httpsAddr: 443
 tunelAddr: 8083

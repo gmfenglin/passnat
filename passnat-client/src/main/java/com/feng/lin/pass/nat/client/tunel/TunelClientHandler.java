@@ -26,6 +26,7 @@ import io.netty.handler.codec.http.HttpObject;
 import io.netty.handler.codec.http.HttpVersion;
 import io.netty.handler.timeout.IdleState;
 import io.netty.handler.timeout.IdleStateEvent;
+import io.netty.util.AttributeKey;
 
 public class TunelClientHandler extends SimpleChannelInboundHandler<HttpObject> {
 	private static final Logger logger = LoggerFactory.getLogger(TunelClientHandler.class);
@@ -74,7 +75,14 @@ public class TunelClientHandler extends SimpleChannelInboundHandler<HttpObject> 
 			if (tunelOptional.isPresent()) {
 				Tunel tunel = tunelOptional.get();
 				Loger.debugLog(logger, () -> "call proxy: " + request.uri());
+				AttributeKey<String> keyHost = AttributeKey.valueOf("host");
+				AttributeKey<String> connectHost = AttributeKey.valueOf("connectHost");
+				ctx.channel().attr(connectHost)
+						.set(tunel.getSchema() + "://" + tunel.getHost() +((tunel.getPort()==443 || tunel.getPort()==80)?"": ":" + tunel.getPort()));
+				ctx.channel().attr(keyHost)
+						.set(request.headers().get("protocol") + "://" + request.headers().get("Host"));
 				if (tunel.getSchema().equals("http")) {
+
 					Client.start(tunel.getHost(), tunel.getPort(), (FullHttpRequest) msg, ctx.channel());
 				} else if (tunel.getSchema().equals("https")) {
 					Clients.start(tunel.getHost(), tunel.getPort(), (FullHttpRequest) msg, ctx.channel());
