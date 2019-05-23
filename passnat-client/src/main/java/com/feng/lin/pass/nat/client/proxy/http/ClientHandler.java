@@ -19,7 +19,7 @@ public class ClientHandler extends ChannelInboundHandlerAdapter {
 
 	@Override
 	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-		cause.printStackTrace();
+		System.out.println("exceptionCaught:"+cause.getMessage());
 		ctx.close();
 	}
 

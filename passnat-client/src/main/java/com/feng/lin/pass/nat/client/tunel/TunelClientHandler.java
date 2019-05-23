@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import com.feng.lin.pass.nat.client.bean.Tunel;
 import com.feng.lin.pass.nat.client.proxy.http.Client;
+import com.feng.lin.pass.nat.client.proxy.http.Clients;
 import com.feng.lin.pass.nat.client.proxy.route.Router;
 import com.feng.lin.pass.nat.comm.debug.Loger;
 
@@ -68,12 +69,17 @@ public class TunelClientHandler extends SimpleChannelInboundHandler<HttpObject> 
 		if (msg instanceof FullHttpRequest) {
 			FullHttpRequest request = (FullHttpRequest) msg;
 			System.out.println("content:" + request.content().toString(Charset.defaultCharset()));
-			Optional<Tunel> tunelOptional = Optional
-					.ofNullable(Router.getInstance().get(request.headers().get("protocol"), request.headers().get("host")));
+			Optional<Tunel> tunelOptional = Optional.ofNullable(
+					Router.getInstance().get(request.headers().get("protocol"), request.headers().get("host")));
 			if (tunelOptional.isPresent()) {
 				Tunel tunel = tunelOptional.get();
 				Loger.debugLog(logger, () -> "call proxy: " + request.uri());
-				Client.start(tunel.getHost(), tunel.getPort(), (FullHttpRequest) msg, ctx.channel());
+				if (tunel.getSchema().equals("http")) {
+					Client.start(tunel.getHost(), tunel.getPort(), (FullHttpRequest) msg, ctx.channel());
+				} else if (tunel.getSchema().equals("https")) {
+					Clients.start(tunel.getHost(), tunel.getPort(), (FullHttpRequest) msg, ctx.channel());
+				}
+
 			}
 
 		} else if (msg instanceof FullHttpResponse) {

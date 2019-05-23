@@ -5,6 +5,13 @@ public class Tunel {
 	private String subDomain;
 	private String proto;
 	private String host;
+	private String schema;
+	public String getSchema() {
+		return schema;
+	}
+	public void setSchema(String schema) {
+		this.schema = schema;
+	}
 	private int port;
 	
 	public int getPort() {
