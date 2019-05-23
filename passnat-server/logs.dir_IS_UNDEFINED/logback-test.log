@@ -4423,3 +4423,15 @@ Created at:
 	io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
 	io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
 	java.lang.Thread.run(Unknown Source)
+2019-05-23 13:44:56.492|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|main|debugLog|10|client starting..
+2019-05-23 13:44:56.612|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|main|debugLog|10|config:Config [domain=localhost, httpAddr=80, httpsAddr=443, tunelAddr=8083]
+2019-05-23 13:44:58.615|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|Thread-2|debugLog|10|Open your web browser and navigate to http://127.0.0.1:80/
+2019-05-23 13:44:58.616|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|Thread-1|debugLog|10|listening port:8083
+2019-05-23 13:51:21.768|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|main|debugLog|10|client starting..
+2019-05-23 13:51:21.859|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|main|debugLog|10|config:Config [domain=localhost, httpAddr=80, httpsAddr=443, tunelAddr=8083]
+2019-05-23 13:51:23.903|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|Thread-2|debugLog|10|Open your web browser and navigate to http://127.0.0.1:80/
+2019-05-23 13:51:23.903|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|Thread-1|debugLog|10|listening port:8083
+2019-05-23 13:53:38.013|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|main|debugLog|10|client starting..
+2019-05-23 13:53:38.108|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|main|debugLog|10|config:Config [domain=localhost, httpAddr=80, httpsAddr=443, tunelAddr=8083]
+2019-05-23 13:53:40.031|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|Thread-1|debugLog|10|listening port:8083
+2019-05-23 13:53:40.031|DEBUG|com.feng.lin.pass.nat.comm.debug.Loger|Thread-2|debugLog|10|Open your web browser and navigate to http://127.0.0.1:80/

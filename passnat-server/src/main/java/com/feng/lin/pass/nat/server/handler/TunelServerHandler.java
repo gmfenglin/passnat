@@ -69,6 +69,15 @@ public class TunelServerHandler extends SimpleChannelInboundHandler<HttpObject> 
 
 					@Override
 					public void operationComplete(ChannelFuture future) throws Exception {
+						channelMap.entrySet().forEach((entry) -> {
+							if (entry.getValue() == ctx.channel()) {
+								domainMap.entrySet().forEach((entryDomain) -> {
+									if (entry.getKey().equals(entryDomain.getValue())) {
+										domainMap.remove(entryDomain.getKey());
+									}
+								});
+							}
+						});
 						ctx.channel().close();
 					}
 				});
@@ -81,8 +90,21 @@ public class TunelServerHandler extends SimpleChannelInboundHandler<HttpObject> 
 	@Override
 	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
 		System.out.println("exceptionCaught:" + cause.getMessage());
-		Channel channel = ctx.channel();
-		closeOnFlush(channel);
+		ctx.close().addListener(new ChannelFutureListener() {
+
+			@Override
+			public void operationComplete(ChannelFuture future) throws Exception {
+				channelMap.entrySet().forEach((entry) -> {
+					if (entry.getValue() == ctx.channel()) {
+						domainMap.entrySet().forEach((entryDomain) -> {
+							if (entry.getKey().equals(entryDomain.getValue())) {
+								domainMap.remove(entryDomain.getKey());
+							}
+						});
+					}
+				});
+			}
+		});
 	}
 
 	@Override
