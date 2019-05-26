@@ -56,7 +56,7 @@ public class TunelClient {
 							ChannelPipeline p = ch.pipeline();
 							p.addLast(sslCtx.newHandler(ch.alloc()));
 							p.addLast(new LoggingHandler(LogLevel.INFO));
-						//	p.addLast(new IdleStateHandler(5, 5, 10));
+							p.addLast(new IdleStateHandler(5, 5, 10));
 							p.addLast(new PassNatMessageDecoder());
 							p.addLast(new PassNatMessageEncoder());
 							p.addLast(PassNatReaderHandler.PASSNAT_HANDLER_READ, new PassNatReaderHandler(false));
