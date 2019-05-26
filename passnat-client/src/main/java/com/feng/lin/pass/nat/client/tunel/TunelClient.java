@@ -9,8 +9,10 @@ import org.slf4j.LoggerFactory;
 import com.alibaba.fastjson.JSON;
 import com.feng.lin.pass.nat.client.bean.Config;
 import com.feng.lin.pass.nat.comm.debug.Loger;
-import com.feng.lin.pass.nat.comm.handler.ReadHandler;
-import com.feng.lin.pass.nat.comm.handler.WriteHandler;
+import com.feng.lin.pass.nat.comm.message.PassNatMessageDecoder;
+import com.feng.lin.pass.nat.comm.message.PassNatMessageEncoder;
+import com.feng.lin.pass.nat.comm.message.PassNatReaderHandler;
+import com.feng.lin.pass.nat.comm.message.PassNatWriterHandler;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.Unpooled;
@@ -28,7 +30,6 @@ import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.HttpHeaderNames;
 import io.netty.handler.codec.http.HttpHeaderValues;
 import io.netty.handler.codec.http.HttpMethod;
-import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.HttpVersion;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
@@ -55,10 +56,11 @@ public class TunelClient {
 							ChannelPipeline p = ch.pipeline();
 							p.addLast(sslCtx.newHandler(ch.alloc()));
 							p.addLast(new LoggingHandler(LogLevel.INFO));
-							p.addLast(new IdleStateHandler(5, 5, 10));
-							p.addLast("readHandler", new ReadHandler());
-							p.addLast("writeHandler", new WriteHandler());
-
+						//	p.addLast(new IdleStateHandler(5, 5, 10));
+							p.addLast(new PassNatMessageDecoder());
+							p.addLast(new PassNatMessageEncoder());
+							p.addLast(PassNatReaderHandler.PASSNAT_HANDLER_READ, new PassNatReaderHandler(false));
+							p.addLast(PassNatWriterHandler.PASSNAT_HANDLER_WRITE, new PassNatWriterHandler());
 							p.addLast(new TunelClientHandler());
 						}
 					});

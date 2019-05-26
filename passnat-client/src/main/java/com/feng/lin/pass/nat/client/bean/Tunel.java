@@ -46,7 +46,8 @@ public class Tunel {
 	}
 	@Override
 	public String toString() {
-		return "Tunel [name=" + name + ", subDomain=" + subDomain + ", proto=" + proto + ", host=" + host + "]";
+		return "Tunel [name=" + name + ", subDomain=" + subDomain + ", proto=" + proto + ", host=" + host + ", schema="
+				+ schema + ", port=" + port + "]";
 	}
 	
 }

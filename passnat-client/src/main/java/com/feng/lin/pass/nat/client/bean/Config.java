@@ -11,6 +11,7 @@ public class Config implements Serializable{
 	private String serverAddr;
 	private int port;
 	private String domain;
+	private String clientId;
 	
 	public String getDomain() {
 		return domain;
@@ -44,10 +45,16 @@ public class Config implements Serializable{
 	public void setPort(int port) {
 		this.port = port;
 	}
+	public String getClientId() {
+		return clientId;
+	}
+	public void setClientId(String clientId) {
+		this.clientId = clientId;
+	}
 	@Override
 	public String toString() {
-		return "Config [serverAddr=" + serverAddr + ", port=" + port + ", domain=" + domain + ", trustHostRootCerts="
-				+ trustHostRootCerts + ", tunels=" + tunels + "]";
+		return "Config [serverAddr=" + serverAddr + ", port=" + port + ", domain=" + domain + ", clientId=" + clientId
+				+ ", trustHostRootCerts=" + trustHostRootCerts + ", tunels=" + tunels + "]";
 	}
 	
 }

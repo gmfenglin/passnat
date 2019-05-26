@@ -1,14 +1,15 @@
 serverAddr: sunnysoon.com
 port: 8083
 domain: sunnysoon.com
+clientId: axx1
 trustHostRootCerts: false
 tunels: 
   - name: fengoffice
     subDomain: fengoffice
     proto: https
-    host: 192.168.1.101
-    port: 9001
-    schema: http
+    host: www.qq.com
+    port: 443
+    schema: https
   - name: wechat
     subDomain: wechat
     proto: https

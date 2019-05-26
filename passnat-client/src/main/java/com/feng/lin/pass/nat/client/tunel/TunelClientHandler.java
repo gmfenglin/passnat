@@ -1,6 +1,5 @@
 package com.feng.lin.pass.nat.client.tunel;
 
-import java.net.URI;
 import java.nio.charset.Charset;
 import java.util.Optional;
 
@@ -16,20 +15,15 @@ import com.feng.lin.pass.nat.comm.debug.Loger;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-import io.netty.handler.codec.http.DefaultFullHttpRequest;
 import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.FullHttpResponse;
-import io.netty.handler.codec.http.HttpHeaderNames;
-import io.netty.handler.codec.http.HttpHeaderValues;
-import io.netty.handler.codec.http.HttpMethod;
 import io.netty.handler.codec.http.HttpObject;
-import io.netty.handler.codec.http.HttpVersion;
-import io.netty.handler.timeout.IdleState;
-import io.netty.handler.timeout.IdleStateEvent;
+import io.netty.handler.codec.http.HttpResponseStatus;
 import io.netty.util.AttributeKey;
 
 public class TunelClientHandler extends SimpleChannelInboundHandler<HttpObject> {
 	private static final Logger logger = LoggerFactory.getLogger(TunelClientHandler.class);
+	private boolean reconnectFlag;
 
 	public TunelClientHandler() {
 		super(false);
@@ -44,24 +38,14 @@ public class TunelClientHandler extends SimpleChannelInboundHandler<HttpObject> 
 	@Override
 	public void channelInactive(ChannelHandlerContext ctx) throws Exception {
 		System.out.println("client Inactive");
-		TunelClient.reconnect();
+		if (reconnectFlag) {
+			TunelClient.reconnect();
+		}else {
+			System.exit(0);
+		}
+
 	}
 
-	@Override
-	public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
-		if (evt instanceof IdleStateEvent) {
-			IdleStateEvent event = (IdleStateEvent) evt;
-			if (event.state() == IdleState.ALL_IDLE) {
-				URI url = new URI("/heartbeat");
-				FullHttpRequest request = new DefaultFullHttpRequest(HttpVersion.HTTP_1_0, HttpMethod.GET,
-						url.toASCIIString());
-				request.headers().set(HttpHeaderNames.CONNECTION, HttpHeaderValues.KEEP_ALIVE);
-				ctx.channel().writeAndFlush(request);
-			}
-		} else {
-			super.userEventTriggered(ctx, evt);
-		}
-	}
 
 	@Override
 	protected void channelRead0(ChannelHandlerContext ctx, HttpObject msg) throws Exception {
@@ -77,8 +61,8 @@ public class TunelClientHandler extends SimpleChannelInboundHandler<HttpObject> 
 				Loger.debugLog(logger, () -> "call proxy: " + request.uri());
 				AttributeKey<String> keyHost = AttributeKey.valueOf("host");
 				AttributeKey<String> connectHost = AttributeKey.valueOf("connectHost");
-				ctx.channel().attr(connectHost)
-						.set(tunel.getSchema() + "://" + tunel.getHost() +((tunel.getPort()==443 || tunel.getPort()==80)?"": ":" + tunel.getPort()));
+				ctx.channel().attr(connectHost).set(tunel.getSchema() + "://" + tunel.getHost()
+						+ ((tunel.getPort() == 443 || tunel.getPort() == 80) ? "" : ":" + tunel.getPort()));
 				ctx.channel().attr(keyHost)
 						.set(request.headers().get("protocol") + "://" + request.headers().get("Host"));
 				if (tunel.getSchema().equals("http")) {
@@ -91,7 +75,9 @@ public class TunelClientHandler extends SimpleChannelInboundHandler<HttpObject> 
 			}
 
 		} else if (msg instanceof FullHttpResponse) {
-
+			FullHttpResponse response = (FullHttpResponse) msg;
+			reconnectFlag = response.status().equals(HttpResponseStatus.NOT_ACCEPTABLE) ? false : true;
+			System.out.println(response.content().toString(Charset.defaultCharset()));
 		}
 	}
 

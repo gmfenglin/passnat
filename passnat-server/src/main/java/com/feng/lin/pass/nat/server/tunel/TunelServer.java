@@ -4,8 +4,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.feng.lin.pass.nat.comm.debug.Loger;
-import com.feng.lin.pass.nat.comm.handler.ReadHandler;
-import com.feng.lin.pass.nat.comm.handler.WriteHandler;
+import com.feng.lin.pass.nat.comm.message.PassNatMessageDecoder;
+import com.feng.lin.pass.nat.comm.message.PassNatMessageEncoder;
+import com.feng.lin.pass.nat.comm.message.PassNatReaderHandler;
+import com.feng.lin.pass.nat.comm.message.PassNatWriterHandler;
 import com.feng.lin.pass.nat.server.handler.TunelServerHandler;
 
 import io.netty.bootstrap.ServerBootstrap;
@@ -17,7 +19,6 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 import io.netty.handler.ssl.SslContext;
@@ -41,9 +42,11 @@ public class TunelServer {
 						public void initChannel(SocketChannel ch) throws Exception {
 							ChannelPipeline p = ch.pipeline();
 							p.addLast(sslCtx.newHandler(ch.alloc()));
-							p.addLast(new IdleStateHandler(10,10, 20));
-							p.addLast("readHandler", new ReadHandler());
-							p.addLast("writeHandler", new WriteHandler());
+							//p.addLast(new IdleStateHandler(10, 10, 20));
+							p.addLast(new PassNatMessageDecoder());
+							p.addLast(new PassNatMessageEncoder());
+							p.addLast(PassNatReaderHandler.PASSNAT_HANDLER_READ, new PassNatReaderHandler(true));
+							p.addLast(PassNatWriterHandler.PASSNAT_HANDLER_WRITE, new PassNatWriterHandler());
 							p.addLast(new TunelServerHandler(false));
 						}
 					});

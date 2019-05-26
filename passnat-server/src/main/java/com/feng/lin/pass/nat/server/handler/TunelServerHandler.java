@@ -8,8 +8,10 @@ import static io.netty.handler.codec.http.HttpResponseStatus.OK;
 import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
 
 import java.nio.charset.Charset;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,6 +33,7 @@ import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.FullHttpResponse;
 import io.netty.handler.codec.http.HttpHeaderValues;
 import io.netty.handler.codec.http.HttpObject;
+import io.netty.handler.codec.http.HttpResponseStatus;
 import io.netty.handler.timeout.IdleState;
 import io.netty.handler.timeout.IdleStateEvent;
 import io.netty.util.AttributeKey;
@@ -38,7 +41,8 @@ import io.netty.util.AttributeKey;
 @Sharable
 public class TunelServerHandler extends SimpleChannelInboundHandler<HttpObject> {
 	private static final Logger logger = LoggerFactory.getLogger(TunelServerHandler.class);
-	public static final Map<String, Channel> channelMap = new ConcurrentHashMap<>();
+	public static final Map<String, Map<String, Channel>> channelMap = new ConcurrentHashMap<>();
+	public static final Map<String, List<String>> subDomainMap = new ConcurrentHashMap<>();
 	public static final Map<String, String> domainMap = new ConcurrentHashMap<>();
 
 	public TunelServerHandler(boolean autoRelease) {
@@ -52,40 +56,6 @@ public class TunelServerHandler extends SimpleChannelInboundHandler<HttpObject> 
 		}
 	}
 
-	@Override
-	public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
-		if (evt instanceof IdleStateEvent) {
-			IdleStateEvent event = (IdleStateEvent) evt;
-			if (event.state() == IdleState.ALL_IDLE) {
-				FullHttpResponse response = new DefaultFullHttpResponse(HTTP_1_1, OK,
-						Unpooled.wrappedBuffer(("time out . ").getBytes()));
-				response.headers().set(CONTENT_TYPE, "text/plain");
-				response.headers().setInt(CONTENT_LENGTH, response.content().readableBytes());
-
-				response.headers().set(CONNECTION, HttpHeaderValues.CLOSE);
-				// 清除超时会话
-				ChannelFuture writeAndFlush = ctx.writeAndFlush(response);
-				writeAndFlush.addListener(new ChannelFutureListener() {
-
-					@Override
-					public void operationComplete(ChannelFuture future) throws Exception {
-						channelMap.entrySet().forEach((entry) -> {
-							if (entry.getValue() == ctx.channel()) {
-								domainMap.entrySet().forEach((entryDomain) -> {
-									if (entry.getKey().equals(entryDomain.getValue())) {
-										domainMap.remove(entryDomain.getKey());
-									}
-								});
-							}
-						});
-						ctx.channel().close();
-					}
-				});
-			}
-		} else {
-			super.userEventTriggered(ctx, evt);
-		}
-	}
 
 	@Override
 	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
@@ -94,15 +64,7 @@ public class TunelServerHandler extends SimpleChannelInboundHandler<HttpObject> 
 
 			@Override
 			public void operationComplete(ChannelFuture future) throws Exception {
-				channelMap.entrySet().forEach((entry) -> {
-					if (entry.getValue() == ctx.channel()) {
-						domainMap.entrySet().forEach((entryDomain) -> {
-							if (entry.getKey().equals(entryDomain.getValue())) {
-								domainMap.remove(entryDomain.getKey());
-							}
-						});
-					}
-				});
+				clear(future.channel());
 			}
 		});
 	}
@@ -110,6 +72,8 @@ public class TunelServerHandler extends SimpleChannelInboundHandler<HttpObject> 
 	@Override
 	public void channelInactive(ChannelHandlerContext ctx) throws Exception {
 		System.out.println(ctx.channel() + "is inactive");
+		clear(ctx.channel());
+
 	}
 
 	@Override
@@ -122,27 +86,55 @@ public class TunelServerHandler extends SimpleChannelInboundHandler<HttpObject> 
 				System.out.println(content);
 				JSONObject jObject = JSON.parseObject(content);
 				String domain = jObject.getString("domain");
-				channel.attr(AttributeKey.valueOf("domain")).set(domain);
-
-				JSONArray subDomainArray = jObject.getJSONArray("tunels");
-				for (int i = 0; i < subDomainArray.size(); i++) {
-					JSONObject subDomainObject = subDomainArray.getJSONObject(i);
-					String host = subDomainObject.getString("subDomain") + "." + domain;
-					domainMap.put(host, domain);
-				}
-
-				channelMap.put(domain, channel);
+				String domainClientId = jObject.getString("clientId");
 				FullHttpResponse response = new DefaultFullHttpResponse(HTTP_1_1, OK,
 						Unpooled.wrappedBuffer("linked sucess".getBytes()));
-				response.headers().set(CONTENT_TYPE, "text/plain");
-				response.headers().setInt(CONTENT_LENGTH, response.content().readableBytes());
+				if (!channelMap.containsKey(domain)) {
+					channelMap.put(domain, new ConcurrentHashMap<>());
+				}
+				if (!channelMap.get(domain).containsKey(domainClientId)) {
+					channelMap.get(domain).put(domainClientId, channel);
+					channel.attr(AttributeKey.valueOf("domain")).set(domain);
+					channel.attr(AttributeKey.valueOf("clientId")).set(domainClientId);
+					JSONArray subDomainArray = jObject.getJSONArray("tunels");
+					for (int i = 0; i < subDomainArray.size(); i++) {
+						JSONObject subDomainObject = subDomainArray.getJSONObject(i);
+						String host = subDomainObject.getString("subDomain") + "." + domain;
+						if (!subDomainMap.containsKey(host)) {
+							subDomainMap.put(host, new CopyOnWriteArrayList<>());
+						}
+						if (!subDomainMap.get(host).contains(domainClientId)) {
+							subDomainMap.get(host).add(domainClientId);
+						}
+						domainMap.put(host, domain);
+					}
 
-				response.headers().set(CONNECTION, KEEP_ALIVE);
-				channel.writeAndFlush(response);
+					response.headers().set(CONNECTION, KEEP_ALIVE);
+					response.headers().set(CONTENT_TYPE, "text/plain");
+					response.headers().setInt(CONTENT_LENGTH, response.content().readableBytes());
+
+					channel.writeAndFlush(response);
+				} else {
+					response = new DefaultFullHttpResponse(HTTP_1_1, HttpResponseStatus.NOT_ACCEPTABLE,
+							Unpooled.wrappedBuffer("clientId is used by other".getBytes()));
+					response.headers().set(CONNECTION, HttpHeaderValues.CLOSE);
+					response.headers().set(CONTENT_TYPE, "text/plain");
+					response.headers().setInt(CONTENT_LENGTH, response.content().readableBytes());
+
+					channel.writeAndFlush(response).addListener(new ChannelFutureListener() {
+
+						@Override
+						public void operationComplete(ChannelFuture future) throws Exception {
+							channel.close();
+						}
+					});
+				}
+
 			}
 
 		} else if (msg instanceof FullHttpResponse) {
 			FullHttpResponse response = (FullHttpResponse) msg;
+			System.out.println("response:"+response);
 			AttributeKey<Channel> keyHttpChannel = AttributeKey
 					.valueOf("httpChannel-" + response.headers().get("reqId"));
 			Channel httpChannel = ctx.channel().attr(keyHttpChannel).get();
@@ -151,6 +143,52 @@ public class TunelServerHandler extends SimpleChannelInboundHandler<HttpObject> 
 			}
 		}
 
+	}
+
+	private void clear(Channel channel) {
+		AttributeKey<String> attributeDomainKey = AttributeKey.valueOf("domain");
+		AttributeKey<String> attributeClientKey = AttributeKey.valueOf("clientId");
+		String domain = channel.attr(attributeDomainKey).get();
+		String clientId = channel.attr(attributeClientKey).get();
+		if (domain != null && clientId != null && channelMap.get(domain) != null) {
+			if (channelMap.get(domain).containsKey(clientId)) {
+				channelMap.get(domain).remove(clientId);
+			}
+
+			if (channelMap.get(domain).isEmpty()) {
+				domainMap.entrySet().forEach((entry) -> {
+					if (subDomainMap.get(entry.getKey()).contains(clientId)) {
+						subDomainMap.get(entry.getKey()).remove(clientId);
+					}
+					if (subDomainMap.get(entry.getKey()).isEmpty()) {
+						subDomainMap.remove(entry.getKey());
+					}
+				});
+				channelMap.entrySet().forEach((entry) -> {
+					domainMap.entrySet().forEach((entryDomain) -> {
+						if (entry.getKey().equals(entryDomain.getValue())) {
+							domainMap.remove(entryDomain.getKey());
+						}
+					});
+
+				});
+
+				channelMap.remove(domain);
+			} else {
+				domainMap.entrySet().forEach((entry) -> {
+					if (subDomainMap.get(entry.getKey()).contains(clientId)) {
+						subDomainMap.get(entry.getKey()).remove(clientId);
+					}
+					if (subDomainMap.get(entry.getKey()).isEmpty()) {
+						domainMap.remove(entry.getKey());
+						subDomainMap.remove(entry.getKey());
+					}
+				});
+			}
+		}
+		Loger.debugLog(logger, () -> {
+			return (JSON.toJSONString(channelMap) + JSON.toJSONString(subDomainMap) + JSON.toJSONString(domainMap));
+		});
 	}
 
 }
