@@ -9,6 +9,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import com.feng.lin.pass.nat.client.bean.Config;
 import com.feng.lin.pass.nat.client.bean.Tunel;
 
+import io.netty.util.internal.MacAddressUtil;
+
 public class Router {
 	private Router() {
 	}
@@ -46,5 +48,8 @@ public class Router {
 			}
 		}
 		return null;
+	}
+	public static void main(String[] args) {
+		System.out.println(MacAddressUtil.formatAddress(MacAddressUtil.defaultMachineId()));
 	}
 }

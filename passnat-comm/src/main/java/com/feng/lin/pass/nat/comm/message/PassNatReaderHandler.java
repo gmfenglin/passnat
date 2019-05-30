@@ -1,11 +1,12 @@
 package com.feng.lin.pass.nat.comm.message;
 
+import com.feng.lin.pass.nat.comm.coder.http.PassNatHttpObjectAggregator;
+
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
-import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.HttpRequestDecoder;
 import io.netty.handler.codec.http.HttpResponseDecoder;
 import io.netty.handler.timeout.IdleState;
@@ -23,13 +24,16 @@ public class PassNatReaderHandler extends ChannelInboundHandlerAdapter {
 
 	@Override
 	public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-
+		HandlerInChannel handlerInChannel = new HandlerInChannel(ctx.channel());
+		handlerInChannel.clear();
 		super.channelInactive(ctx);
 
 	}
 
 	@Override
 	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+		HandlerInChannel handlerInChannel = new HandlerInChannel(ctx.channel());
+		handlerInChannel.clear();
 		super.exceptionCaught(ctx, cause);
 	}
 
@@ -52,6 +56,8 @@ public class PassNatReaderHandler extends ChannelInboundHandlerAdapter {
 
 					@Override
 					public void operationComplete(ChannelFuture future) throws Exception {
+						HandlerInChannel handlerInChannel = new HandlerInChannel(ctx.channel());
+						handlerInChannel.clear();
 						future.channel().close();
 					}
 				});
@@ -72,13 +78,12 @@ public class PassNatReaderHandler extends ChannelInboundHandlerAdapter {
 
 	@Override
 	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-
 		if (msg == null) {
 			return;
 		}
+		HandlerInChannel handlerInChannel = new HandlerInChannel(ctx.channel());
 		if (msg instanceof PassNatMessage) {
 			PassNatMessage messageIn = (PassNatMessage) msg;
-
 			if (messageIn.getProtocol() == PassNatMessageType.protocol_base) { // 心跳协议
 				if (isServer && messageIn.getType() == PassNatMessageType.protocol_base_heartbeat) {
 					PassNatMessage message = new PassNatMessage();
@@ -96,36 +101,20 @@ public class PassNatReaderHandler extends ChannelInboundHandlerAdapter {
 				}
 
 			} else if (messageIn.getProtocol() == PassNatMessageType.protocol_http) {// http协议
-				if (messageIn.getType() == PassNatMessageType.protocol_http_request) {// 请求
 
-					if (ctx.pipeline().get("Decoder") != null
-							&& !(ctx.pipeline().get("Decoder") instanceof HttpRequestDecoder)) {
-						ctx.pipeline().replace(ctx.pipeline().get("Decoder"), "Decoder", new HttpRequestDecoder());
-					} else if (ctx.pipeline().get("Decoder") == null) {
-						ctx.pipeline().addAfter(PASSNAT_HANDLER_READ, "Decoder", new HttpRequestDecoder());
-					}
-					if (ctx.pipeline().get("HttpObjectAggregator") == null) {
-						ctx.pipeline().addAfter("Decoder", "HttpObjectAggregator",
-								new HttpObjectAggregator(MAX_LENGTH));
-					}
-					super.channelRead(ctx, Unpooled.wrappedBuffer(messageIn.getBody()));
+				if (messageIn.getType() == PassNatMessageType.protocol_http_request) {// 请求
+					ctx.pipeline().addAfter(PASSNAT_HANDLER_READ, "Decoder",
+							handlerInChannel.get("HttpRequestDecoder", () -> new HttpRequestDecoder()));
 				} else if (messageIn.getType() == PassNatMessageType.protocol_http_response) {// 响应
 
-					if (ctx.pipeline().get("Decoder") != null
-							&& !(ctx.pipeline().get("Decoder") instanceof HttpResponseDecoder)) {
-						ctx.pipeline().replace(ctx.pipeline().get("Decoder"), "Decoder", new HttpResponseDecoder());
-					} else if (ctx.pipeline().get("Decoder") == null) {
-						ctx.pipeline().addAfter(PASSNAT_HANDLER_READ, "Decoder", new HttpResponseDecoder());
-					}
-					if (ctx.pipeline().get("HttpObjectAggregator") == null) {
-						ctx.pipeline().addAfter("Decoder", "HttpObjectAggregator",
-								new HttpObjectAggregator(MAX_LENGTH));
-					}
-
-					super.channelRead(ctx, Unpooled.wrappedBuffer(messageIn.getBody()));
-				} else {
-					System.err.println("msg type is error.");
+					ctx.pipeline().addAfter(PASSNAT_HANDLER_READ, "Decoder",
+							handlerInChannel.get("HttpResponseDecoder", () -> new HttpResponseDecoder()));
 				}
+
+				ctx.pipeline().addAfter("Decoder", "HttpObjectAggregator", handlerInChannel.get("HttpObjectAggregator",
+						() -> new PassNatHttpObjectAggregator(MAX_LENGTH)));
+
+				super.channelRead(ctx, Unpooled.wrappedBuffer(messageIn.getBody()));
 			}
 		} else {
 			super.channelRead(ctx, msg);

@@ -17,21 +17,16 @@ public class PassNatWriterHandler extends ChannelOutboundHandlerAdapter {
 		if (msg == null) {
 			return;
 		}
+		HandlerInChannel handlerInChannel = new HandlerInChannel(ctx.channel());
 		if (msg instanceof PassNatMessage) {
 			super.write(ctx, msg, promise);
 		} else if (msg instanceof FullHttpResponse) {
-			if (ctx.pipeline().get("Encoder") != null && !(ctx.pipeline().get("Encoder") instanceof ResponseEncoder)) {
-				ctx.pipeline().replace(ctx.pipeline().get("Encoder"), "Encoder", new ResponseEncoder());
-			} else if (ctx.pipeline().get("Encoder") == null) {
-				ctx.pipeline().addBefore(PASSNAT_HANDLER_WRITE, "Encoder", new ResponseEncoder());
-			}
+			ctx.pipeline().addBefore(PASSNAT_HANDLER_WRITE, "Encoder",
+					handlerInChannel.get("ResponseEncoder", () -> new ResponseEncoder()));
 			super.write(ctx, msg, promise);
 		} else if (msg instanceof FullHttpRequest) {
-			if (ctx.pipeline().get("Encoder") != null && !(ctx.pipeline().get("Encoder") instanceof RequestEncoder)) {
-				ctx.pipeline().replace(ctx.pipeline().get("Encoder"), "Encoder", new RequestEncoder());
-			} else if (ctx.pipeline().get("Encoder") == null) {
-				ctx.pipeline().addBefore(PASSNAT_HANDLER_WRITE, "Encoder", new RequestEncoder());
-			}
+			ctx.pipeline().addBefore(PASSNAT_HANDLER_WRITE, "Encoder",
+					handlerInChannel.get("RequestEncoder", () -> new RequestEncoder()));
 			super.write(ctx, msg, promise);
 		} else {
 			super.write(ctx, msg, promise);

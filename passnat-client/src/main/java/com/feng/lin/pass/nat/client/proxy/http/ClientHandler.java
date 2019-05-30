@@ -32,7 +32,6 @@ public class ClientHandler extends SimpleChannelInboundHandler<HttpObject> {
 
 	@Override
 	protected void channelRead0(ChannelHandlerContext ctx, HttpObject msg) throws Exception {
-		System.out.println(msg);
 		if (msg instanceof FullHttpResponse) {
 			FullHttpResponse response = (FullHttpResponse) msg;
 			response.headers().add("reqId", reqId);

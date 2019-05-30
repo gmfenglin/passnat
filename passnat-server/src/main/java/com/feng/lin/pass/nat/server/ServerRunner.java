@@ -28,7 +28,6 @@ public class ServerRunner {
 			HttpsServer.run(config.getHttpsAddr());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-
 			Loger.debugLog(logger, () -> "client start error: " + e.getMessage());
 		}
 
